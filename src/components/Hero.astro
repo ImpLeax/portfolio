@@ -1,0 +1,102 @@
+---
+import { ArrowDown, ArrowUpRight, Database, Server, Braces, Layers } from '@lucide/astro';
+import GitHubIcon from './GitHubIcon.astro';
+import { profile } from '../data/profile';
+---
+
+<section class="hero container" aria-labelledby="hero-title">
+  <div class="hero-main">
+    <div class="availability">
+      <span class="status-dot"></span> Open to junior roles & freelance projects
+    </div>
+    <p class="hero-name">
+      Volodymyr Bondarchuk <span>/</span> Portfolio
+    </p>
+    <h1 id="hero-title">
+      Python Backend
+      <br />
+      <span>
+        Developer<span class="title-period">.</span>
+      </span>
+    </h1>
+    <p class="hero-description">
+      I build backend systems, REST APIs and the tools that connect them — from automation and bots
+      to web scrapers.
+    </p>
+    <p class="hero-position">
+      Junior developer. Software Engineering student. Ready to contribute.
+    </p>
+    <div class="hero-actions">
+      <a class="button button-primary" href="#projects">
+        View projects <ArrowDown size={17} aria-hidden="true" />
+      </a>
+      <a class="button button-secondary" href="#contact">
+        Contact me <ArrowUpRight size={17} aria-hidden="true" />
+      </a>
+      <a
+        class="hero-github icon-link"
+        href={profile.github}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="GitHub (opens in a new tab)"
+      >
+        <GitHubIcon size={19} />
+        <span>GitHub</span>
+      </a>
+    </div>
+  </div>
+  <div
+    class="hero-diagram"
+    aria-label="Current focus: Django and REST APIs, PostgreSQL and Redis, Docker and Linux"
+  >
+    <div class="diagram-topline">
+      <span class="mono">BACKEND / CURRENT FOCUS</span>
+      <Braces size={17} aria-hidden="true" />
+    </div>
+    <div class="diagram-client">
+      <span class="diagram-dot"></span>
+      <span>Web app, bot or integration</span>
+    </div>
+    <div class="diagram-connector">
+      <span>HTTP / REST</span>
+    </div>
+    <div class="diagram-core">
+      <div class="diagram-icon">
+        <Server size={25} stroke-width={1.5} aria-hidden="true" />
+      </div>
+      <div>
+        <strong>Python & Django</strong>
+        <span>Business logic · REST API</span>
+      </div>
+      <span class="core-marker">01</span>
+    </div>
+    <div class="diagram-branch" aria-hidden="true"></div>
+    <div class="diagram-databases">
+      <div>
+        <Database size={20} stroke-width={1.5} aria-hidden="true" />
+        <strong>PostgreSQL</strong>
+        <span>Relational data</span>
+      </div>
+      <div>
+        <Layers size={20} stroke-width={1.5} aria-hidden="true" />
+        <strong>Redis</strong>
+        <span>Caching & messaging</span>
+      </div>
+    </div>
+    <div class="diagram-deployment">
+      <span class="mono">ENVIRONMENT</span>
+      <span>
+        Docker <span class="muted">/</span> Linux
+      </span>
+    </div>
+  </div>
+  <div class="hero-bottom">
+    <p>
+      Python <span>·</span> Django <span>·</span> PostgreSQL <span>·</span> REST API <span>·</span>{' '}
+      Docker <span>·</span> Automation
+    </p>
+    <a href="#about" class="scroll-cue">
+      A little more about me <ArrowDown size={15} aria-hidden="true" />
+    </a>
+  </div>
+</section>

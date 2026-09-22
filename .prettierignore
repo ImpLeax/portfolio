@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.astro/
+.npm-cache/
+.playwright/
+test-results/
+playwright-report/
+.idea/
+package-lock.json

@@ -1,0 +1,46 @@
+---
+import { Server, Database, Workflow, Bot, Terminal, PanelsTopLeft } from '@lucide/astro';
+import SectionHeading from './SectionHeading.astro';
+import { skills } from '../data/skills';
+const icons = {
+  server: Server,
+  database: Database,
+  workflow: Workflow,
+  bot: Bot,
+  terminal: Terminal,
+  panels: PanelsTopLeft,
+};
+---
+
+<section id="skills" class="section container" tabindex="-1" aria-label="Technical skills">
+  <SectionHeading
+    number="02"
+    eyebrow="The toolkit"
+    title="Python first. A practical stack."
+    description="Backend is my focus. Everything else helps me build and deliver a complete application."
+  />
+  <div class="skills-grid">
+    {skills.map((group) => {
+      const Icon = icons[group.icon];
+      return (
+        <div class:list={['skill-group', { 'skill-primary': 'primary' in group }]}>
+          <div class="skill-heading">
+            <Icon size={21} stroke-width={1.6} aria-hidden="true" />
+            <h3>{group.name}</h3>
+            {'primary' in group && <span class="small-label">Core focus</span>}
+          </div>
+          <p class="skill-note">{group.note}</p>
+          <ul class="tag-list">
+            {group.items.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        </div>
+      );
+    })}
+  </div>
+  <p class="section-footnote">
+    Frontend supports my backend work: I can build simple to medium-complexity interfaces and
+    connect them to APIs.
+  </p>
+</section>

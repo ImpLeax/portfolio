@@ -1,0 +1,55 @@
+name: Deploy portfolio to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+      - name: Determine GitHub Pages URL
+        shell: bash
+        env:
+          CONFIGURED_SITE: ${{ vars.SITE_URL }}
+          CONFIGURED_BASE: ${{ vars.BASE_PATH }}
+        run: |
+          owner="${GITHUB_REPOSITORY_OWNER,,}"
+          repo="${GITHUB_REPOSITORY#*/}"
+          if [[ "${repo,,}" == "${owner}.github.io" ]]; then
+            base="/"
+          else
+            base="/${repo}/"
+          fi
+          echo "BASE_PATH=${CONFIGURED_BASE:-$base}" >> "$GITHUB_ENV"
+          echo "SITE_URL=${CONFIGURED_SITE:-https://${owner}.github.io}" >> "$GITHUB_ENV"
+      - name: Install, check, build and upload static site
+        uses: withastro/action@v6
+        with:
+          node-version: 24
+        env:
+          ASTRO_TELEMETRY_DISABLED: '1'
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

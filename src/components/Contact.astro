@@ -1,0 +1,86 @@
+---
+import { ArrowUpRight, Mail, Send, Download, FileText } from '@lucide/astro';
+import GitHubIcon from './GitHubIcon.astro';
+import { profile } from '../data/profile';
+import { assetPath } from '../lib/paths';
+---
+
+<section
+  id="contact"
+  class="contact-section container"
+  tabindex="-1"
+  aria-labelledby="contact-title"
+>
+  <div class="contact-panel">
+    <div class="contact-main">
+      <p class="eyebrow">
+        <span class="section-number">06</span> Get in touch
+      </p>
+      <h2 id="contact-title">
+        Let’s build
+        <br />
+        something <span>useful.</span>
+      </h2>
+      <p>
+        Have a Junior / Trainee backend opportunity or a project in mind? I’d like to hear about it.
+      </p>
+      <a class="button button-primary" href={`mailto:${profile.email}`}>
+        Email me
+        <ArrowUpRight size={18} aria-hidden="true" />
+      </a>
+      <a class="contact-email" href={`mailto:${profile.email}`}>
+        {profile.email}
+      </a>
+    </div>
+    <div class="contact-links">
+      <a href={profile.github} target="_blank" rel="noopener noreferrer">
+        <GitHubIcon />
+        <span>
+          <strong>GitHub</strong>
+          <span>Explore my code</span>
+        </span>
+        <ArrowUpRight size={18} aria-hidden="true" />
+        <span class="sr-only"> (opens in a new tab)</span>
+      </a>
+      <a href={profile.linkedin} target="_blank" rel="noopener noreferrer">
+        <span class="linkedin-mark" aria-hidden="true">
+          in
+        </span>
+        <span>
+          <strong>LinkedIn</strong>
+          <span>Let’s connect professionally</span>
+        </span>
+        <ArrowUpRight size={18} aria-hidden="true" />
+        <span class="sr-only"> (opens in a new tab)</span>
+      </a>
+      <a href={profile.telegram} target="_blank" rel="noopener noreferrer">
+        <Send size={20} aria-hidden="true" />
+        <span>
+          <strong>Telegram</strong>
+          <span>@impleax</span>
+        </span>
+        <ArrowUpRight size={18} aria-hidden="true" />
+        <span class="sr-only"> (opens in a new tab)</span>
+      </a>
+      {profile.resume ? (
+        <a href={assetPath(profile.resume)} download>
+          <FileText size={20} aria-hidden="true" />
+          <span>
+            <strong>Download resume</strong>
+            <span>PDF document</span>
+          </span>
+          <Download size={18} aria-hidden="true" />
+        </a>
+      ) : (
+        <a href={`mailto:${profile.email}?subject=Resume%20request`}>
+          <FileText size={20} aria-hidden="true" />
+          <span>
+            <strong>Request resume</strong>
+            <span>Get in touch by email</span>
+          </span>
+          <Mail size={18} aria-hidden="true" />
+        </a>
+      )}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,57 @@
+---
+import { Braces, Bot, ScanLine, PanelsTopLeft, ArrowRight } from '@lucide/astro';
+import SectionHeading from './SectionHeading.astro';
+const services = [
+  {
+    icon: Braces,
+    title: 'Backend & APIs',
+    text: 'Django applications, REST APIs, authentication and authorization, database integration, business logic and third-party integrations.',
+  },
+  {
+    icon: Bot,
+    title: 'Bots & automation',
+    text: 'Telegram and Discord bots, API integrations and tools that take repetitive steps out of everyday workflows.',
+  },
+  {
+    icon: ScanLine,
+    title: 'Web scraping',
+    text: 'Structured data extraction, browser automation, filtering and processing with Playwright, Selenium, BeautifulSoup and Requests.',
+  },
+  {
+    icon: PanelsTopLeft,
+    title: 'Complete web applications',
+    text: 'Small and medium web products, from project structure and database design to backend architecture, frontend and deployment.',
+  },
+];
+---
+
+<section id="services" class="section container" tabindex="-1" aria-label="What I can build">
+  <SectionHeading
+    number="04"
+    eyebrow="What I can build"
+    title="Useful software, end to end."
+    description="Open to focused freelance projects and opportunities to contribute as part of a development team."
+  />
+  <div class="services-grid">
+    {services.map(({ icon: Icon, title, text }, index) => (
+      <div class="service-card">
+        <div class="service-topline">
+          <Icon size={25} stroke-width={1.5} aria-hidden="true" />
+          <span class="mono">0{index + 1}</span>
+        </div>
+        <h3>{title}</h3>
+        <p>{text}</p>
+      </div>
+    ))}
+  </div>
+  <div class="delivery-note">
+    <p>From project structure to real-world use.</p>
+    <div>
+      <span>Plan & design</span>
+      <ArrowRight size={14} aria-hidden="true" />
+      <span>Build & integrate</span>
+      <ArrowRight size={14} aria-hidden="true" />
+      <span>Docker & Linux / VPS deployment</span>
+    </div>
+  </div>
+</section>

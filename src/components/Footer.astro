@@ -1,0 +1,20 @@
+---
+import { ArrowUp } from '@lucide/astro';
+import { profile } from '../data/profile';
+---
+
+<footer class="container site-footer">
+  <div>
+    <a href="#top" class="wordmark" aria-label="VB. — Volodymyr Bondarchuk, back to top">
+      VB<span>.</span>
+    </a>
+    <p>
+      © {new Date().getFullYear()} {profile.name}
+    </p>
+  </div>
+  <p class="footer-note">Built with care. Powered by Astro.</p>
+  <a class="back-top" href="#top">
+    Back to top
+    <ArrowUp size={16} aria-hidden="true" />
+  </a>
+</footer>

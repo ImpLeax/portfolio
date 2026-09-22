@@ -1,0 +1,79 @@
+---
+import { Menu, X, ArrowUpRight } from '@lucide/astro';
+import GitHubIcon from './GitHubIcon.astro';
+import { navigation, profile } from '../data/profile';
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="wordmark" href="#top" aria-label="VB. — Volodymyr Bondarchuk, back to top">
+      VB<span>.</span>
+    </a>
+    <button
+      class="menu-toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="main-navigation"
+      aria-label="Open navigation"
+      hidden
+    >
+      <Menu class="menu-open-icon" size={23} aria-hidden="true" />
+      <X class="menu-close-icon" size={23} aria-hidden="true" />
+    </button>
+    <nav id="main-navigation" class="main-navigation" aria-label="Main navigation">
+      {navigation.map((item) => (
+        <a href={`#${item.id}`}>{item.label}</a>
+      ))}
+    </nav>
+    <a
+      class="header-github"
+      href={profile.github}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="GitHub (opens in a new tab)"
+    >
+      <GitHubIcon size={18} />
+      <span>GitHub</span>
+      <ArrowUpRight size={14} aria-hidden="true" />
+    </a>
+  </div>
+</header>
+
+<script>
+  const header = document.querySelector<HTMLElement>('.site-header');
+  const button = document.querySelector<HTMLButtonElement>('.menu-toggle');
+  const nav = document.querySelector<HTMLElement>('#main-navigation');
+  if (header && button && nav) {
+    header.classList.add('navigation-enhanced');
+    button.hidden = false;
+    const setOpen = (open: boolean) => {
+      button.setAttribute('aria-expanded', String(open));
+      button.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
+      header.classList.toggle('menu-is-open', open);
+    };
+    button.addEventListener('click', () =>
+      setOpen(button.getAttribute('aria-expanded') !== 'true'),
+    );
+    nav.querySelectorAll('a').forEach((link) =>
+      link.addEventListener('click', () => {
+        setOpen(false);
+        const target = document.querySelector<HTMLElement>(link.hash);
+        target?.focus({ preventScroll: true });
+      }),
+    );
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && button.getAttribute('aria-expanded') === 'true') {
+        setOpen(false);
+        button.focus();
+      }
+    });
+    document.addEventListener('click', (event) => {
+      if (event.target instanceof Node && !header.contains(event.target)) setOpen(false);
+    });
+    header.addEventListener('focusout', (event) => {
+      if (event.relatedTarget instanceof Node && !header.contains(event.relatedTarget))
+        setOpen(false);
+    });
+    matchMedia('(min-width: 769px)').addEventListener('change', () => setOpen(false));
+  }
+</script>

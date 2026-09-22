@@ -1,0 +1,140 @@
+---
+import {
+  ArrowUpRight,
+  ChevronDown,
+  MessagesSquare,
+  BriefcaseBusiness,
+  Bot,
+  ScanLine,
+  ShoppingBag,
+  CodeXml,
+} from '@lucide/astro';
+import type { Project } from '../data/projects';
+import { assetPath } from '../lib/paths';
+import ProjectDiagram from './ProjectDiagram.astro';
+import GitHubIcon from './GitHubIcon.astro';
+interface Props {
+  project: Project;
+}
+const { project } = Astro.props;
+const icons = {
+  messages: MessagesSquare,
+  business: BriefcaseBusiness,
+  bot: Bot,
+  scan: ScanLine,
+  store: ShoppingBag,
+};
+const Icon = icons[project.icon];
+const isPlanned = project.id === 'bytemarket';
+---
+
+<article
+  class:list={['project-card', { 'project-featured': project.featured }]}
+  aria-labelledby={`${project.id}-title`}
+>
+  <div class="project-content">
+    <div class="project-topline">
+      <span class="project-icon">
+        <Icon size={22} stroke-width={1.5} aria-hidden="true" />
+      </span>
+      <div class="project-meta">
+        {project.featured && <span class="project-featured-label">Featured project</span>}
+        {project.status && (
+          <span class="project-status">
+            <span class="status-dot"></span>
+            {project.status}
+          </span>
+        )}
+        <span class="project-number mono">/{project.number}</span>
+      </div>
+    </div>
+    <p class="project-category">{project.category}</p>
+    <h3 id={`${project.id}-title`}>{project.title}</h3>
+    <p class="project-description">{project.description}</p>
+    <ul class="tag-list project-tags">
+      {project.technologies.slice(0, project.featured ? 6 : 4).map((technology) => (
+        <li>{technology}</li>
+      ))}
+      {project.technologies.length > (project.featured ? 6 : 4) && (
+        <li class="tag-more">
+          +{project.technologies.length - (project.featured ? 6 : 4)}
+          <span class="sr-only"> technologies listed in project details</span>
+        </li>
+      )}
+    </ul>
+    {project.featured && (
+      <div class="project-focus">
+        <span>{project.focus.label}</span>
+        <p>{project.focus.text}</p>
+      </div>
+    )}
+    <details class="project-details">
+      <summary>
+        {isPlanned ? 'Explore the roadmap' : 'Explore project details'}
+        <ChevronDown size={17} aria-hidden="true" />
+      </summary>
+      <div class="project-details-content">
+        <h4>{isPlanned ? 'Planned functionality' : 'Key features'}</h4>
+        <ul>
+          {project.features.map((feature) => (
+            <li>{feature}</li>
+          ))}
+        </ul>
+        {!project.featured && (
+          <>
+            <h4>{project.focus.label}</h4>
+            <p>{project.focus.text}</p>
+          </>
+        )}
+        <h4>{isPlanned ? 'Planned / used technologies' : 'Full technology stack'}</h4>
+        <p>{project.technologies.join(' · ')}</p>
+      </div>
+    </details>
+    <div class="project-links">
+      {project.github ? (
+        <a
+          class="text-link"
+          href={project.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`View source for ${project.title} on GitHub (opens in a new tab)`}
+        >
+          <GitHubIcon size={16} />
+          View source
+          <ArrowUpRight size={15} aria-hidden="true" />
+        </a>
+      ) : (
+        <span class="project-link-placeholder">
+          <CodeXml size={16} aria-hidden="true" />
+          Repository link to be added
+        </span>
+      )}
+      {project.demo && (
+        <a
+          class="text-link"
+          href={project.demo}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`Live demo of ${project.title} (opens in a new tab)`}
+        >
+          Live demo
+          <ArrowUpRight size={15} aria-hidden="true" />
+        </a>
+      )}
+    </div>
+  </div>
+  {project.screenshot ? (
+    <div class="project-image">
+      <img
+        src={assetPath(project.screenshot.src)}
+        alt={project.screenshot.alt}
+        width={project.screenshot.width}
+        height={project.screenshot.height}
+        loading="lazy"
+        decoding="async"
+      />
+    </div>
+  ) : (
+    project.featured && <ProjectDiagram />
+  )}
+</article>
