@@ -8,5 +8,10 @@ export default defineConfig({
   base,
   output: 'static',
   trailingSlash: 'always',
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en', 'uk'],
+    routing: { prefixDefaultLocale: false },
+  },
   devToolbar: { enabled: false },
 });

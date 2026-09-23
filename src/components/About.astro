@@ -1,45 +1,52 @@
 ---
+import { translator } from '../i18n';
+const t = translator(Astro.currentLocale);
 import { ArrowUpRight, Sparkles } from '@lucide/astro';
 import SectionHeading from './SectionHeading.astro';
 ---
 
-<section id="about" class="section container" tabindex="-1" aria-label="About me">
-  <SectionHeading number="01" eyebrow="A little context" title="Building beyond the surface." />
+<section id="about" class="section container" tabindex="-1" aria-label={t('About me')}>
+  <SectionHeading
+    number="01"
+    eyebrow={t('A little context')}
+    title={t('Building beyond the surface.')}
+  />
   <div class="about-grid">
     <div class="about-lead">
-      <p>
-        Backend is where
-        <br />I put the pieces together.
-      </p>
+      <p>{t('Backend is where I put the pieces together.')}</p>
       <a href="#education" class="text-link">
-        Software Engineering at KPI <ArrowUpRight size={16} aria-hidden="true" />
+        {' '}
+        {t('Software Engineering at KPI')} <ArrowUpRight size={16} aria-hidden="true" />
       </a>
     </div>
     <div class="about-copy">
       <p>
-        I’m a 3rd-year Software Engineering student at{' '}
-        <strong>Igor Sikorsky Kyiv Polytechnic Institute</strong>, focused on Python backend
-        development. My hands-on experience comes from personal and university projects, and I’m
-        looking for my first commercial opportunity as a Junior / Trainee developer.
+        {t('I’m a 3rd-year Software Engineering student at')}{' '}
+        <strong>{t('Igor Sikorsky Kyiv Polytechnic Institute')}</strong>
+        {t(
+          ', focused on Python backend development. My hands-on experience comes from personal and university projects, and I’m looking for my first commercial opportunity as a Junior / Trainee developer.',
+        )}
       </p>
       <p>
-        I work with Django, REST APIs, PostgreSQL and asynchronous Python. Alongside backend work, I
-        build bots, automate browser workflows and create frontend interfaces that connect to APIs.
+        {t(
+          'I work with Django, REST APIs, PostgreSQL and asynchronous Python. Alongside backend work, I build bots, automate browser workflows and create frontend interfaces that connect to APIs.',
+        )}
       </p>
       <p>
-        I like understanding how a system fits together: its data, networking, integrations and
-        architecture, beyond individual lines of code.
+        {t(
+          'I like understanding how a system fits together: its data, networking, integrations and architecture, beyond individual lines of code.',
+        )}
       </p>
     </div>
   </div>
   <aside class="ai-note">
     <Sparkles size={19} aria-hidden="true" />
     <div>
-      <h3>Modern tools. Accountable development.</h3>
+      <h3>{t('Modern tools. Accountable development.')}</h3>
       <p>
-        I use AI tools to analyze tasks, research solutions, debug, refactor, generate code, explore
-        unfamiliar technologies and review ideas. I review, understand, test and modify generated
-        code before using it.
+        {t(
+          'I use AI tools to analyze tasks, research solutions, debug, refactor, generate code, explore unfamiliar technologies and review ideas. I review, understand, test and modify generated code before using it.',
+        )}
       </p>
     </div>
   </aside>

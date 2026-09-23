@@ -1,4 +1,6 @@
 ---
+import { translator } from '../i18n';
+const t = translator(Astro.currentLocale);
 import {
   ArrowUpRight,
   ChevronDown,
@@ -16,7 +18,17 @@ import GitHubIcon from './GitHubIcon.astro';
 interface Props {
   project: Project;
 }
-const { project } = Astro.props;
+const { project: original } = Astro.props;
+const project = {
+  ...original,
+  title: t(original.title),
+  category: t(original.category),
+  description: t(original.description),
+  status: original.status ? t(original.status) : undefined,
+  features: original.features.map(t),
+  focus: { label: t(original.focus.label), text: t(original.focus.text) },
+  technologies: original.technologies.map((value) => (value === 'Databases' ? t(value) : value)),
+};
 const icons = {
   messages: MessagesSquare,
   business: BriefcaseBusiness,
@@ -38,7 +50,7 @@ const isPlanned = project.id === 'bytemarket';
         <Icon size={22} stroke-width={1.5} aria-hidden="true" />
       </span>
       <div class="project-meta">
-        {project.featured && <span class="project-featured-label">Featured project</span>}
+        {project.featured && <span class="project-featured-label">{t('Featured project')}</span>}
         {project.status && (
           <span class="project-status">
             <span class="status-dot"></span>
@@ -58,7 +70,7 @@ const isPlanned = project.id === 'bytemarket';
       {project.technologies.length > (project.featured ? 6 : 4) && (
         <li class="tag-more">
           +{project.technologies.length - (project.featured ? 6 : 4)}
-          <span class="sr-only"> technologies listed in project details</span>
+          <span class="sr-only"> {t('technologies listed in project details')}</span>
         </li>
       )}
     </ul>
@@ -70,11 +82,11 @@ const isPlanned = project.id === 'bytemarket';
     )}
     <details class="project-details">
       <summary>
-        {isPlanned ? 'Explore the roadmap' : 'Explore project details'}
+        {isPlanned ? t('Explore the roadmap') : t('Explore project details')}
         <ChevronDown size={17} aria-hidden="true" />
       </summary>
       <div class="project-details-content">
-        <h4>{isPlanned ? 'Planned functionality' : 'Key features'}</h4>
+        <h4>{isPlanned ? t('Planned functionality') : t('Key features')}</h4>
         <ul>
           {project.features.map((feature) => (
             <li>{feature}</li>
@@ -86,7 +98,7 @@ const isPlanned = project.id === 'bytemarket';
             <p>{project.focus.text}</p>
           </>
         )}
-        <h4>{isPlanned ? 'Planned / used technologies' : 'Full technology stack'}</h4>
+        <h4>{isPlanned ? t('Planned / used technologies') : t('Full technology stack')}</h4>
         <p>{project.technologies.join(' · ')}</p>
       </div>
     </details>
@@ -97,16 +109,13 @@ const isPlanned = project.id === 'bytemarket';
           href={project.github}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label={`View source for ${project.title} on GitHub (opens in a new tab)`}
+          aria-label={`${t('View source')} — ${project.title}, GitHub ${t('(opens in a new tab)')}`}
         >
-          <GitHubIcon size={16} />
-          View source
-          <ArrowUpRight size={15} aria-hidden="true" />
+          <GitHubIcon size={16} /> {t('View source')} <ArrowUpRight size={15} aria-hidden="true" />
         </a>
       ) : (
         <span class="project-link-placeholder">
-          <CodeXml size={16} aria-hidden="true" />
-          Repository link to be added
+          <CodeXml size={16} aria-hidden="true" /> {t('Repository link to be added')}{' '}
         </span>
       )}
       {project.demo && (
@@ -115,10 +124,10 @@ const isPlanned = project.id === 'bytemarket';
           href={project.demo}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label={`Live demo of ${project.title} (opens in a new tab)`}
+          aria-label={`${t('Live demo')} — ${project.title} ${t('(opens in a new tab)')}`}
         >
-          Live demo
-          <ArrowUpRight size={15} aria-hidden="true" />
+          {' '}
+          {t('Live demo')} <ArrowUpRight size={15} aria-hidden="true" />
         </a>
       )}
     </div>

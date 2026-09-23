@@ -66,7 +66,7 @@ test('mobile menu supports keyboard navigation, Escape and section focus', async
   await page.keyboard.press('Shift+Tab');
   await expect(toggle).toBeFocused();
   // Tab through every item and out of the menu; the disclosure must not trap focus.
-  for (let i = 0; i < 7; i++) await page.keyboard.press('Tab');
+  for (let i = 0; i < 10; i++) await page.keyboard.press('Tab');
   await expect(page.getByRole('link', { name: 'View projects', exact: true })).toBeFocused();
   await expect(toggle).toHaveAttribute('aria-expanded', 'false');
   await toggle.click();

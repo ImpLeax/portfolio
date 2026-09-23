@@ -1,4 +1,6 @@
 ---
+import { translator } from '../i18n';
+const t = translator(Astro.currentLocale);
 import { Braces, Bot, ScanLine, PanelsTopLeft, ArrowRight } from '@lucide/astro';
 import SectionHeading from './SectionHeading.astro';
 const services = [
@@ -25,12 +27,14 @@ const services = [
 ];
 ---
 
-<section id="services" class="section container" tabindex="-1" aria-label="What I can build">
+<section id="services" class="section container" tabindex="-1" aria-label={t('What I can build')}>
   <SectionHeading
     number="04"
-    eyebrow="What I can build"
-    title="Useful software, end to end."
-    description="Open to focused freelance projects and opportunities to contribute as part of a development team."
+    eyebrow={t('What I can build')}
+    title={t('Useful software, end to end.')}
+    description={t(
+      'Open to focused freelance projects and opportunities to contribute as part of a development team.',
+    )}
   />
   <div class="services-grid">
     {services.map(({ icon: Icon, title, text }, index) => (
@@ -39,19 +43,19 @@ const services = [
           <Icon size={25} stroke-width={1.5} aria-hidden="true" />
           <span class="mono">0{index + 1}</span>
         </div>
-        <h3>{title}</h3>
-        <p>{text}</p>
+        <h3>{t(title)}</h3>
+        <p>{t(text)}</p>
       </div>
     ))}
   </div>
   <div class="delivery-note">
-    <p>From project structure to real-world use.</p>
+    <p>{t('From project structure to real-world use.')}</p>
     <div>
-      <span>Plan & design</span>
+      <span>{t('Plan & design')}</span>
       <ArrowRight size={14} aria-hidden="true" />
-      <span>Build & integrate</span>
+      <span>{t('Build & integrate')}</span>
       <ArrowRight size={14} aria-hidden="true" />
-      <span>Docker & Linux / VPS deployment</span>
+      <span>{t('Docker & Linux / VPS deployment')}</span>
     </div>
   </div>
 </section>

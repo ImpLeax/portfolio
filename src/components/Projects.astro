@@ -1,4 +1,6 @@
 ---
+import { translator } from '../i18n';
+const t = translator(Astro.currentLocale);
 import { ArrowUpRight } from '@lucide/astro';
 import SectionHeading from './SectionHeading.astro';
 import ProjectCard from './ProjectCard.astro';
@@ -10,14 +12,16 @@ import { profile } from '../data/profile';
   id="projects"
   class="section projects-section"
   tabindex="-1"
-  aria-label="Featured projects"
+  aria-label={t('Featured projects')}
 >
   <div class="container">
     <SectionHeading
       number="03"
-      eyebrow="Selected work"
-      title="From an idea to a working system."
-      description="Personal and university work exploring backend architecture, real-time communication and useful automation."
+      eyebrow={t('Selected work')}
+      title={t('From an idea to a working system.')}
+      description={t(
+        'Personal and university work exploring backend architecture, real-time communication and useful automation.',
+      )}
     />
     <div class="projects-grid">
       {projects.map((project) => (
@@ -25,11 +29,11 @@ import { profile } from '../data/profile';
       ))}
     </div>
     <div class="projects-footer">
-      <p>Hands-on projects. Real technical problems. Always learning.</p>
+      <p>{t('Hands-on projects. Real technical problems. Always learning.')}</p>
       <a class="text-link" href={profile.github} target="_blank" rel="noopener noreferrer">
-        Find me on GitHub
-        <ArrowUpRight size={16} aria-hidden="true" />
-        <span class="sr-only"> (opens in a new tab)</span>
+        {' '}
+        {t('Find me on GitHub')} <ArrowUpRight size={16} aria-hidden="true" />
+        <span class="sr-only"> {t('(opens in a new tab)')}</span>
       </a>
     </div>
   </div>

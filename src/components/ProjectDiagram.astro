@@ -1,19 +1,23 @@
 ---
+import { translator } from '../i18n';
+const t = translator(Astro.currentLocale);
 import { MessagesSquare, Database, Radio, ArrowDown, ArrowRight } from '@lucide/astro';
 ---
 
 <div
   class="project-diagram"
   role="img"
-  aria-label="Architecture sketch: a React client connects to a Django REST API and Django Channels for real-time chat, with PostgreSQL, PostGIS and Redis."
+  aria-label={t(
+    'Architecture sketch: a React client connects to a Django REST API and Django Channels for real-time chat, with PostgreSQL, PostGIS and Redis.',
+  )}
 >
   <div class="project-diagram-label">
-    <span class="mono">ARCHITECTURE SKETCH</span>
+    <span class="mono">{t('ARCHITECTURE SKETCH')}</span>
     <span class="diagram-dot"></span>
   </div>
   <div class="project-diagram-client">
     <MessagesSquare size={18} aria-hidden="true" />
-    <span>React client</span>
+    <span>{t('React client')}</span>
     <span class="mono">UI</span>
   </div>
   <div class="project-diagram-arrows">
@@ -26,15 +30,15 @@ import { MessagesSquare, Database, Radio, ArrowDown, ArrowRight } from '@lucide/
   </div>
   <div class="project-diagram-services">
     <div>
-      <span class="mono">REQUESTS</span>
+      <span class="mono">{t('REQUESTS')}</span>
       <strong>Django REST API</strong>
-      <span>Auth · Profiles · Search</span>
+      <span>{t('Auth · Profiles · Search')}</span>
     </div>
     <div class="realtime-service">
-      <span class="mono">REAL-TIME</span>
+      <span class="mono">{t('REAL-TIME')}</span>
       <strong>Django Channels</strong>
       <span>
-        <Radio size={13} aria-hidden="true" /> Chat & messaging
+        <Radio size={13} aria-hidden="true" /> {t('Chat & messaging')}{' '}
       </span>
     </div>
   </div>
@@ -46,5 +50,5 @@ import { MessagesSquare, Database, Radio, ArrowDown, ArrowRight } from '@lucide/
     <ArrowRight size={15} aria-hidden="true" />
     <span>Redis</span>
   </div>
-  <p class="diagram-caption">A REST foundation. A real-time layer.</p>
+  <p class="diagram-caption">{t('A REST foundation. A real-time layer.')}</p>
 </div>

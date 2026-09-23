@@ -5,10 +5,10 @@ A static portfolio for a Junior Python Backend Developer, built for recruiters a
 ## Stack
 
 - Astro with reusable components and typed content files
-- Plain CSS with responsive layouts, a restrained dark theme and reduced-motion support
+- Plain CSS with responsive layouts, restrained dark and light themes and reduced-motion support
 - Lucide icons rendered as inline SVG; separate GitHub and LinkedIn brand marks
-- Locally served Geist variable font, limited to the Latin subset
-- A small vanilla JavaScript module for accessible mobile navigation
+- Locally served Geist variable font with Latin and Ukrainian Cyrillic subsets
+- Small vanilla JavaScript modules for accessible navigation, theme and language preferences
 - GitHub Actions and GitHub Pages; no server, database or contact form
 
 Node.js is needed only for development and the build. The published site is static HTML, CSS, font files and a small navigation script.
@@ -79,6 +79,18 @@ Deployment follows the [official Astro GitHub Pages guide](https://docs.astro.bu
 
 ## Editing content
 
+### Language and appearance
+
+The portfolio is statically generated in English at `/` and Ukrainian at `/uk/`. With a repository base, these become `/portfolio/` and `/portfolio/uk/`. `astro.config.mjs` declares `en` as the default locale and `uk` as the second locale; no server-side language detection is needed.
+
+The header has **EN / УК** links and a light/dark theme button. On the root page, an explicit `?lang=en` or `?lang=uk` choice takes priority, followed by a saved choice, then the first supported language in `navigator.languages` (including regional variants such as `uk-UA`). Unsupported preferences fall back to English. Direct `/uk/` links keep their Ukrainian content. Switching languages preserves the current section.
+
+The theme initially follows `prefers-color-scheme`; a manual choice takes priority. Preferences are saved locally as `portfolio:language` and `portfolio:theme`. If browser storage is blocked, the controls still work; explicit language links retain their choice in the URL. A small inline head script applies the theme before styles paint. Both language pages and their navigation work without JavaScript; automatic detection and theme switching require JavaScript.
+
+English copy remains in the components and data files. Ukrainian translations live in `src/i18n/uk.ts`, keyed by the corresponding English copy. When editing translated content or adding a project, add or update its Ukrainian entries too. Missing translations fail the build so they cannot silently ship as mixed-language content. Technology and brand names are preserved. Both pages share `src/components/Portfolio.astro` and use localized titles, descriptions, canonical URLs, `hreflang` links and Open Graph locales. The social preview image remains shared.
+
+Theme palettes are CSS custom properties in `src/styles/global.css`; preference controls and language layout adjustments are in `src/styles/preferences.css`.
+
 ```text
 src/
   components/       Header, Hero, About, Skills, Projects, Services, Education,
@@ -89,7 +101,9 @@ src/
     skills.ts       Categorized technology lists
   layouts/          Document metadata, font preload and base layout
   lib/paths.ts      Base-aware public asset URLs
-  pages/index.astro Single-page composition
+  i18n/             Ukrainian copy and shared locale helpers
+  pages/index.astro English page
+  pages/uk/         Ukrainian page
   styles/global.css Design tokens, component styles and responsive breakpoints
 public/
   icons/            SVG favicon
@@ -131,7 +145,7 @@ Replace `public/images/social-card.png` with a 1200 × 630 image when desired. U
 
 ## Verification
 
-The local production build was reviewed on September 22, 2026. All nine browser tests passed for both the root and `/portfolio/` configurations. Screenshots were reviewed at 1440, 1024, 768 and 390 pixels. The final mobile Lighthouse audit scored **100 Performance, 100 Accessibility, 100 Best Practices and 100 SEO** on localhost. These are local measurements; deployed results depend on hosting, network conditions and future content changes. Automated accessibility checks complement the keyboard and visual review.
+The initial English-only build was reviewed on September 22, 2026, with a local mobile Lighthouse score of **100 Performance, 100 Accessibility, 100 Best Practices and 100 SEO**. Those measurements predate the language and theme update. The expanded browser suite checks both themes and languages at 1440, 1024, 768 and 390 pixels, including automatic detection, stored preferences, blocked storage and navigation without JavaScript. Automated accessibility checks complement the keyboard and visual review.
 
 Browser tests exercise all four requested widths (1440, 1024, 768 and 390), overflow, internal anchors, resource failures, expandable details, metadata, keyboard navigation, the mobile menu, reduced motion and automated accessibility. Dev-only test dependencies are not shipped to visitors.
 

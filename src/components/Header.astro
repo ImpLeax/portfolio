@@ -1,12 +1,15 @@
 ---
+import { translator } from '../i18n';
+const t = translator(Astro.currentLocale);
 import { Menu, X, ArrowUpRight } from '@lucide/astro';
 import GitHubIcon from './GitHubIcon.astro';
 import { navigation, profile } from '../data/profile';
+import Preferences from './Preferences.astro';
 ---
 
 <header class="site-header">
   <div class="container header-inner">
-    <a class="wordmark" href="#top" aria-label="VB. — Volodymyr Bondarchuk, back to top">
+    <a class="wordmark" href="#top" aria-label={t('VB. — Volodymyr Bondarchuk, back to top')}>
       VB<span>.</span>
     </a>
     <button
@@ -14,15 +17,17 @@ import { navigation, profile } from '../data/profile';
       type="button"
       aria-expanded="false"
       aria-controls="main-navigation"
-      aria-label="Open navigation"
+      data-open-label={t('Open navigation')}
+      data-close-label={t('Close navigation')}
+      aria-label={t('Open navigation')}
       hidden
     >
       <Menu class="menu-open-icon" size={23} aria-hidden="true" />
       <X class="menu-close-icon" size={23} aria-hidden="true" />
     </button>
-    <nav id="main-navigation" class="main-navigation" aria-label="Main navigation">
+    <nav id="main-navigation" class="main-navigation" aria-label={t('Main navigation')}>
       {navigation.map((item) => (
-        <a href={`#${item.id}`}>{item.label}</a>
+        <a href={`#${item.id}`}>{t(item.label)}</a>
       ))}
     </nav>
     <a
@@ -30,12 +35,13 @@ import { navigation, profile } from '../data/profile';
       href={profile.github}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label="GitHub (opens in a new tab)"
+      aria-label={t('GitHub (opens in a new tab)')}
     >
       <GitHubIcon size={18} />
       <span>GitHub</span>
       <ArrowUpRight size={14} aria-hidden="true" />
     </a>
+    <Preferences />
   </div>
 </header>
 
@@ -48,7 +54,10 @@ import { navigation, profile } from '../data/profile';
     button.hidden = false;
     const setOpen = (open: boolean) => {
       button.setAttribute('aria-expanded', String(open));
-      button.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
+      button.setAttribute(
+        'aria-label',
+        (open ? button.dataset.closeLabel : button.dataset.openLabel)!,
+      );
       header.classList.toggle('menu-is-open', open);
     };
     button.addEventListener('click', () =>
@@ -74,6 +83,6 @@ import { navigation, profile } from '../data/profile';
       if (event.relatedTarget instanceof Node && !header.contains(event.relatedTarget))
         setOpen(false);
     });
-    matchMedia('(min-width: 769px)').addEventListener('change', () => setOpen(false));
+    matchMedia('(min-width: 1001px)').addEventListener('change', () => setOpen(false));
   }
 </script>

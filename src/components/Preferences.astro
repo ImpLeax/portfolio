@@ -1,0 +1,95 @@
+---
+import { Sun, Moon } from '@lucide/astro';
+import { getLocale, languagePath, translator } from '../i18n';
+const locale = getLocale(Astro.currentLocale);
+const t = translator(locale);
+---
+
+<div class="preferences">
+  <div class="language-switch" role="group" aria-label={t('Language')}>
+    <a
+      href={`${languagePath('en')}?lang=en`}
+      lang="en"
+      hreflang="en"
+      data-language="en"
+      aria-label="English"
+      aria-current={locale === 'en' ? 'page' : undefined}
+    >
+      EN
+    </a>
+    <a
+      href={`${languagePath('uk')}?lang=uk`}
+      lang="uk"
+      hreflang="uk"
+      data-language="uk"
+      aria-label="Українська"
+      aria-current={locale === 'uk' ? 'page' : undefined}
+    >
+      УК
+    </a>
+  </div>
+  <button
+    class="theme-toggle"
+    type="button"
+    hidden
+    aria-label={t('Switch to light theme')}
+    data-light-label={t('Switch to light theme')}
+    data-dark-label={t('Switch to dark theme')}
+  >
+    <Sun class="theme-sun" size={18} aria-hidden="true" />
+    <Moon class="theme-moon" size={18} aria-hidden="true" />
+  </button>
+</div>
+<script>
+  const themeButton = document.querySelector<HTMLButtonElement>('.theme-toggle');
+  const systemTheme = matchMedia('(prefers-color-scheme: light)');
+  const readTheme = () => {
+    try {
+      return localStorage.getItem('portfolio:theme');
+    } catch {
+      return null;
+    }
+  };
+  let selectedTheme = readTheme();
+  const applyTheme = (theme: 'light' | 'dark') => {
+    document.documentElement.dataset.theme = theme;
+    document.querySelector<HTMLMetaElement>('meta[name="theme-color"]')!.content =
+      theme === 'light' ? '#f7f8fa' : '#101214';
+    const label =
+      theme === 'dark' ? themeButton?.dataset.lightLabel : themeButton?.dataset.darkLabel;
+    if (label) {
+      themeButton?.setAttribute('aria-label', label);
+      themeButton?.setAttribute('title', label);
+    }
+  };
+  if (themeButton) {
+    applyTheme(document.documentElement.dataset.theme === 'light' ? 'light' : 'dark');
+    themeButton.hidden = false;
+    themeButton.addEventListener('click', () => {
+      const nextTheme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+      selectedTheme = nextTheme;
+      applyTheme(nextTheme);
+      try {
+        localStorage.setItem('portfolio:theme', selectedTheme);
+      } catch {}
+    });
+    systemTheme.addEventListener('change', (event) => {
+      if (selectedTheme !== 'light' && selectedTheme !== 'dark')
+        applyTheme(event.matches ? 'light' : 'dark');
+    });
+  }
+  document.querySelectorAll<HTMLAnchorElement>('[data-language]').forEach((link) => {
+    const updateLink = () => {
+      const url = new URL(link.href);
+      url.hash = location.hash;
+      link.href = url.href;
+    };
+    updateLink();
+    window.addEventListener('hashchange', updateLink);
+    link.addEventListener('click', () => {
+      try {
+        localStorage.setItem('portfolio:language', link.dataset.language!);
+      } catch {}
+    });
+  });
+</script>

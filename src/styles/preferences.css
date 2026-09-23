@@ -1,0 +1,171 @@
+.preferences {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+@media (max-width: 540px) {
+  .hero-github {
+    display: none;
+  }
+}
+.language-switch {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--border-strong);
+  border-radius: 5px;
+  padding: 3px;
+}
+.language-switch a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  min-width: 35px;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 3px;
+  color: var(--muted);
+}
+.language-switch a[aria-current='page'] {
+  background: var(--surface-blue);
+  color: var(--accent);
+}
+.language-switch a:hover {
+  color: var(--text);
+  background: var(--surface-raised);
+}
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border: 1px solid var(--border-strong);
+  border-radius: 5px;
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+}
+.theme-toggle:hover {
+  color: var(--accent);
+  background: var(--surface-blue);
+}
+.theme-moon,
+[data-theme='light'] .theme-sun {
+  display: none;
+}
+[data-theme='light'] .theme-moon {
+  display: block;
+}
+.header-inner {
+  gap: 22px;
+}
+.main-navigation {
+  gap: 22px;
+}
+.header-github {
+  padding-left: 20px;
+}
+.skill-heading {
+  flex-wrap: wrap;
+}
+.project-diagram-services strong,
+.project-diagram-services div > span:last-child {
+  white-space: normal;
+}
+html[lang='uk'] .hero-position {
+  max-width: 470px;
+}
+html[lang='uk'] .diagram-databases span {
+  text-align: center;
+}
+html[lang='uk'] .project-diagram-services div > span:last-child {
+  align-items: start;
+}
+@media (max-width: 1100px) {
+  .header-inner {
+    gap: 15px;
+  }
+  .main-navigation {
+    gap: 16px;
+  }
+  .header-github {
+    padding-left: 15px;
+  }
+  .header-github > span,
+  .header-github > svg:last-child {
+    display: none;
+  }
+}
+@media (max-width: 1000px) {
+  .header-inner {
+    min-height: 68px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .header-github {
+    margin-left: auto;
+    border-left: 0;
+    padding-left: 0;
+    min-width: 34px;
+    min-height: 44px;
+    justify-content: center;
+  }
+  .header-github > span,
+  .header-github > svg:last-child {
+    display: none;
+  }
+  .preferences {
+    order: 2;
+    gap: 8px;
+  }
+  .main-navigation {
+    order: 4;
+    width: 100%;
+    justify-content: space-between;
+    padding-bottom: 10px;
+  }
+  .navigation-enhanced .main-navigation {
+    display: none;
+  }
+  .navigation-enhanced .menu-toggle {
+    display: flex;
+  }
+  .menu-is-open .main-navigation {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding-block: 5px 17px;
+  }
+  .menu-is-open .main-navigation a {
+    padding: 13px 9px;
+    border-top: 1px solid var(--border-soft);
+    font-size: 14px;
+  }
+  .menu-is-open .menu-close-icon {
+    display: block;
+  }
+  .menu-is-open .menu-open-icon {
+    display: none;
+  }
+}
+@media (max-width: 390px) {
+  .header-inner {
+    gap: 8px;
+  }
+  .preferences {
+    gap: 6px;
+  }
+  .language-switch a {
+    min-width: 31px;
+  }
+  .theme-toggle {
+    width: 38px;
+  }
+  html[lang='uk'] .hero-actions .button {
+    padding-inline: 12px;
+    gap: 10px;
+  }
+}

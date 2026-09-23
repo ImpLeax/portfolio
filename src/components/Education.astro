@@ -1,4 +1,6 @@
 ---
+import { translator } from '../i18n';
+const t = translator(Astro.currentLocale);
 import { GraduationCap } from '@lucide/astro';
 ---
 
@@ -10,30 +12,24 @@ import { GraduationCap } from '@lucide/astro';
 >
   <div>
     <p class="eyebrow">
-      <span class="section-number">05</span> Education
+      <span class="section-number">05</span> {t('Education')}
     </p>
-    <h2 id="education-title">
-      A foundation
-      <br />
-      in engineering.
-    </h2>
+    <h2 id="education-title">{t('A foundation in engineering.')}</h2>
   </div>
   <div class="education-record">
     <div class="education-topline">
       <GraduationCap size={24} stroke-width={1.5} aria-hidden="true" />
       <span class="mono">2024 — 2028</span>
     </div>
-    <h3>
-      Igor Sikorsky Kyiv
-      <br class="desktop-break" /> Polytechnic Institute
-    </h3>
-    <p>Institute of Atomic and Thermal Energy (IATE)</p>
+    <h3>{t('Igor Sikorsky Kyiv Polytechnic Institute')}</h3>
+    <p>{t('Institute of Atomic and Thermal Energy (IATE)')}</p>
     <div class="degree-details">
-      <span>Software Engineering · Specialty 121</span>
-      <span>Bachelor’s degree · Expected graduation 2028</span>
+      <span>{t('Software Engineering · Specialty 121')}</span>
+      <span>{t('Bachelor’s degree · Expected graduation 2028')}</span>
     </div>
     <span class="student-status">
-      <span class="status-dot"></span>3rd-year student
+      <span class="status-dot"></span>
+      {t('3rd-year student')}{' '}
     </span>
   </div>
 </section>
