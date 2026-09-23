@@ -1,0 +1,39 @@
+---
+import { existsSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { ChevronDown } from '@lucide/astro';
+import type { Project } from '../data/projects';
+import { translator } from '../i18n';
+import ProjectScreenshot from './ProjectScreenshot.astro';
+interface Props {
+  project: Project;
+}
+const { project } = Astro.props;
+const t = translator(Astro.currentLocale);
+const [primary, ...supporting] = project.screenshots;
+const availableSupporting = supporting.filter((image) => existsSync(resolve('public', image.src)));
+---
+
+<div class:list={['project-gallery', { 'gallery-featured': project.featured }]}>
+  {primary && <ProjectScreenshot screenshot={primary} />}
+  {project.featured && (
+    <div class="supporting-screenshots">
+      {supporting.map((screenshot) => (
+        <ProjectScreenshot screenshot={screenshot} compact />
+      ))}
+    </div>
+  )}
+  {!project.featured && availableSupporting.length > 0 && (
+    <details class="additional-screenshots">
+      <summary>
+        {t('More screenshots')}
+        <ChevronDown size={16} aria-hidden="true" />
+      </summary>
+      <div class="supporting-screenshots">
+        {availableSupporting.map((screenshot) => (
+          <ProjectScreenshot screenshot={screenshot} compact />
+        ))}
+      </div>
+    </details>
+  )}
+</div>

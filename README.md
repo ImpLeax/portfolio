@@ -71,7 +71,7 @@ npm run preview
 
 Open `http://localhost:4321/portfolio/` in this mode. Keep the same environment settings for build and preview.
 
-Canonical and Open Graph URLs derive from Astro’s `site` and `base`. `https://impleax.github.io` is the configurable default, not a claim that deployment is already live. Public images, favicon and resume links use the shared `assetPath()` helper, and Astro handles bundled script, CSS and font paths.
+Canonical and Open Graph URLs derive from Astro’s `site` and `base`. `https://impleax.github.io` is the configurable default, not a claim that deployment is already live. Public images and favicon links use the shared `assetPath()` helper, and Astro handles bundled script, CSS and font paths.
 
 For a different account or custom domain, set repository **Settings → Secrets and variables → Actions → Variables**: `SITE_URL` (origin, for example `https://example.com`) and `BASE_PATH` (use `/` for a custom domain). Configure the domain in GitHub Pages as well. Do not put secrets in these public configuration values.
 
@@ -96,7 +96,7 @@ src/
   components/       Header, Hero, About, Skills, Projects, Services, Education,
                     Contact, Footer and small presentation components
   data/
-    profile.ts      Name, contact links and optional resume path
+    profile.ts      Name and contact links
     projects.ts     Descriptions, features, technologies, status and links
     skills.ts       Categorized technology lists
   layouts/          Document metadata, font preload and base layout
@@ -109,41 +109,42 @@ public/
   icons/            SVG favicon
   images/           Social sharing card
     projects/       Your project screenshots
-  resume/           Your PDF resume
 tests/              Browser, link, responsive and accessibility checks
 ```
 
 - Edit `src/data/profile.ts` to replace any contact placeholders. The supplied email, Telegram, GitHub and LinkedIn are already wired up.
 - Edit `src/data/projects.ts` to update projects without changing their layout. Set `github` and optional `demo` to verified HTTPS URLs. Leave unknown links as `null`; no dead placeholder links are rendered.
-- Set a project’s optional `status` to `Completed`, `In Development` or another accurate label. Only ByteMarket has an explicitly provided status. The other projects intentionally have no completion claim.
-- ByteMarket’s features are labeled as a roadmap. The bots entry is an overview of practical experience, with possible capabilities distinguished from specific delivered features.
 - Edit the matching Astro component for About, Education, Services or hero copy. Review the student year and graduation date as they change.
 - Change colors, spacing and typography in the custom properties at the top of `src/styles/global.css`.
 
 ### Project screenshots
 
-Add an optimized WebP or AVIF to `public/images/projects/`, then set the project’s `screenshot`:
+Project screenshots and repository URLs are configured in `src/data/projects.ts`. Each screenshot has a path, dimensions, and English/Ukrainian labels and alt text. Use only real captures. Add files to `public/images/projects/`:
 
-```ts
-screenshot: {
-  src: 'images/projects/your-project.webp',
-  alt: 'Describe the actual interface and relevant visible features',
-  width: 1440,
-  height: 900,
-},
-```
+| Project                     | Expected files                                                  |
+| --------------------------- | --------------------------------------------------------------- |
+| Featured dating application | `dating-main.webp`, `dating-chat.webp`, `dating-discovery.webp` |
+| CRM                         | `crm-dashboard.webp`, `crm-deals.webp`, `crm-products.webp`     |
+| Bots                        | `bot-main.webp`, `bot-admin.webp`                               |
+| Scraping                    | `scraping-output.webp`, `scraping-browser.webp`                 |
 
-Use the image’s real dimensions to prevent layout shifts. Screenshots load lazily. The featured project uses a labeled architecture sketch when there is no screenshot; this is not represented as an image of the actual product.
+When a file is missing, a neutral frame clearly shows its expected filename. Missing images never generate broken requests. Add the real files and rebuild; no component changes are needed. Update dimensions and bilingual descriptions to match the actual images. AVIF is supported by changing the configured filename. Images preserve their proportions, load lazily, and open at full size when selected.
 
-### Resume
+The featured project displays its main image and two supporting frames. Secondary projects display one primary preview; additional captures appear in an expandable gallery only when their files exist. No generated screenshots, fabricated output or fake conversations are included.
 
-Add or replace `public/resume/resume.pdf`, then set `resume: 'resume/resume.pdf'` in `src/data/profile.ts`. The contact section switches from **Request resume** to **Download resume** automatically. Leave it `null` until a real PDF is available; no fabricated resume is included.
+Provided repositories are wired up for Spark, WorkFlowCRM and FixMyRideBot. The bots card also links to AI-Assistant and GateKeeperBot. The scraping repository remains `null` until a verified URL is supplied; no repository control is rendered for it. Contact uses the existing email, GitHub, LinkedIn and Telegram details.
+
+### Visual design and motion
+
+`src/styles/showcase.css` owns the project gallery and card layouts. `src/styles/refinements.css` controls the editorial layout, compact skills, service panels and subtle technical background. Native IntersectionObserver reveals whole sections with a 20px movement; CSS animates the hero connection and desktop hover states. Reduced motion disables these effects. Content remains visible with JavaScript disabled, when printing, and when reached by keyboard or anchor navigation.
 
 ### Social preview and favicon
 
 Replace `public/images/social-card.png` with a 1200 × 630 image when desired. Update its alt text in `src/layouts/Layout.astro` if its content changes. The existing image is a typography-based card using the provided identity and role. Edit `public/icons/favicon.svg` to change the VB monogram.
 
 ## Verification
+
+The current project-showcase revision passed all 33 browser checks for both `/` and `/portfolio/`, including both languages, both themes, all four viewport widths, section reveals, reduced motion, real repository destinations and missing-image fallbacks. The production build and formatting checks pass. Real project captures have not yet been supplied; the configured screenshot areas intentionally show labeled placeholders.
 
 The initial English-only build was reviewed on September 22, 2026, with a local mobile Lighthouse score of **100 Performance, 100 Accessibility, 100 Best Practices and 100 SEO**. Those measurements predate the language and theme update. The expanded browser suite checks both themes and languages at 1440, 1024, 768 and 390 pixels, including automatic detection, stored preferences, blocked storage and navigation without JavaScript. Automated accessibility checks complement the keyboard and visual review.
 
@@ -166,4 +167,4 @@ The test runner starts `astro preview`. For subpath checks, build with `BASE_PAT
 
 All core content and project details work without JavaScript. Without JavaScript, the mobile navigation stays visible. The enhanced menu supports keyboard activation, Escape, and automatic closing after navigation. New-tab links have accessible labels and `noopener noreferrer`.
 
-Before publishing, add verified project repository links and your resume, review the copy, and check the deployed page once on a real phone. No commercial experience, testimonials, usage statistics or unprovided project outcomes are claimed.
+Before publishing, add your real project screenshots, review the copy, and check the deployed page once on a real phone. No commercial experience, testimonials, usage statistics or unprovided project outcomes are claimed.

@@ -1,149 +1,128 @@
 ---
-import { translator } from '../i18n';
-const t = translator(Astro.currentLocale);
 import {
   ArrowUpRight,
   ChevronDown,
+  Check,
   MessagesSquare,
   BriefcaseBusiness,
   Bot,
   ScanLine,
-  ShoppingBag,
-  CodeXml,
 } from '@lucide/astro';
 import type { Project } from '../data/projects';
-import { assetPath } from '../lib/paths';
-import ProjectDiagram from './ProjectDiagram.astro';
+import { translator } from '../i18n';
+import ProjectGallery from './ProjectGallery.astro';
 import GitHubIcon from './GitHubIcon.astro';
 interface Props {
   project: Project;
 }
-const { project: original } = Astro.props;
-const project = {
-  ...original,
-  title: t(original.title),
-  category: t(original.category),
-  description: t(original.description),
-  status: original.status ? t(original.status) : undefined,
-  features: original.features.map(t),
-  focus: { label: t(original.focus.label), text: t(original.focus.text) },
-  technologies: original.technologies.map((value) => (value === 'Databases' ? t(value) : value)),
-};
-const icons = {
-  messages: MessagesSquare,
-  business: BriefcaseBusiness,
-  bot: Bot,
-  scan: ScanLine,
-  store: ShoppingBag,
-};
+const { project } = Astro.props;
+const t = translator(Astro.currentLocale);
+const icons = { messages: MessagesSquare, business: BriefcaseBusiness, bot: Bot, scan: ScanLine };
 const Icon = icons[project.icon];
-const isPlanned = project.id === 'bytemarket';
 ---
 
 <article
-  class:list={['project-card', { 'project-featured': project.featured }]}
+  class:list={[
+    'project-card',
+    { 'project-featured': project.featured, 'project-wide': project.id === 'crm' },
+  ]}
   aria-labelledby={`${project.id}-title`}
 >
-  <div class="project-content">
-    <div class="project-topline">
-      <span class="project-icon">
-        <Icon size={22} stroke-width={1.5} aria-hidden="true" />
-      </span>
-      <div class="project-meta">
-        {project.featured && <span class="project-featured-label">{t('Featured project')}</span>}
-        {project.status && (
-          <span class="project-status">
-            <span class="status-dot"></span>
-            {project.status}
-          </span>
-        )}
-        <span class="project-number mono">/{project.number}</span>
-      </div>
-    </div>
-    <p class="project-category">{project.category}</p>
-    <h3 id={`${project.id}-title`}>{project.title}</h3>
-    <p class="project-description">{project.description}</p>
-    <ul class="tag-list project-tags">
-      {project.technologies.slice(0, project.featured ? 6 : 4).map((technology) => (
-        <li>{technology}</li>
-      ))}
-      {project.technologies.length > (project.featured ? 6 : 4) && (
-        <li class="tag-more">
-          +{project.technologies.length - (project.featured ? 6 : 4)}
-          <span class="sr-only"> {t('technologies listed in project details')}</span>
-        </li>
+  <div class="case-study-heading">
+    <span>
+      <Icon size={19} aria-hidden="true" />
+      {project.featured ? t('Featured case study') : t(project.category)}
+    </span>
+    <span class="mono">/{project.number}</span>
+  </div>
+  <div class="project-presentation">
+    <ProjectGallery project={project} />
+    <div class="project-content">
+      <p class="project-category">{project.featured ? 'Spark' : t(project.category)}</p>
+      <h3 id={`${project.id}-title`}>{t(project.title)}</h3>
+      {project.status && <span class="project-status">{t(project.status)}</span>}
+      <p class="project-description">{t(project.description)}</p>
+      <ul class="project-highlights">
+        {project.features.slice(0, 4).map((feature) => (
+          <li>
+            <Check size={15} aria-hidden="true" />
+            <span>{t(feature)}</span>
+          </li>
+        ))}
+      </ul>
+      <ul class="tag-list project-tags">
+        {project.technologies.slice(0, project.featured ? 8 : 6).map((value) => (
+          <li>{value === 'Databases' ? t(value) : value}</li>
+        ))}
+      </ul>
+      {project.featured && (
+        <div class="project-focus">
+          <span>{t(project.focus.label)}</span>
+          <p>{t(project.focus.text)}</p>
+        </div>
       )}
-    </ul>
-    {project.featured && (
-      <div class="project-focus">
-        <span>{project.focus.label}</span>
-        <p>{project.focus.text}</p>
-      </div>
-    )}
-    <details class="project-details">
-      <summary>
-        {isPlanned ? t('Explore the roadmap') : t('Explore project details')}
-        <ChevronDown size={17} aria-hidden="true" />
-      </summary>
-      <div class="project-details-content">
-        <h4>{isPlanned ? t('Planned functionality') : t('Key features')}</h4>
-        <ul>
-          {project.features.map((feature) => (
-            <li>{feature}</li>
+      <details class="project-details">
+        <summary>
+          {t('Explore project details')}
+          <ChevronDown size={17} aria-hidden="true" />
+        </summary>
+        <div class="project-details-content">
+          {!project.featured && (
+            <>
+              <h4>{t(project.focus.label)}</h4>
+              <p>{t(project.focus.text)}</p>
+            </>
+          )}
+          <h4>{t('Key features')}</h4>
+          <ul>
+            {project.features.map((feature) => (
+              <li>{t(feature)}</li>
+            ))}
+          </ul>
+          <h4>{t('Full technology stack')}</h4>
+          <p>
+            {project.technologies
+              .map((value) => (value === 'Databases' ? t(value) : value))
+              .join(' · ')}
+          </p>
+        </div>
+      </details>
+      {(project.github || project.demo) && (
+        <div class="project-links">
+          {project.github && (
+            <a
+              class="repository-link"
+              href={project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${t('View Repository')} — ${t(project.title)} ${t('(opens in a new tab)')}`}
+            >
+              <GitHubIcon size={18} />
+              {t('View Repository')}
+              <ArrowUpRight size={17} aria-hidden="true" />
+            </a>
+          )}
+          {project.demo && (
+            <a class="text-link" href={project.demo} target="_blank" rel="noopener noreferrer">
+              {t('Live demo')}
+              <ArrowUpRight size={16} aria-hidden="true" />
+              <span class="sr-only">{t('(opens in a new tab)')}</span>
+            </a>
+          )}
+        </div>
+      )}
+      {project.relatedRepositories?.length && (
+        <div class="related-repositories">
+          <p>{t('Related repositories')}</p>
+          {project.relatedRepositories.map((repository) => (
+            <a href={repository.url} target="_blank" rel="noopener noreferrer">
+              {repository.name}
+              <ArrowUpRight size={13} aria-hidden="true" />
+              <span class="sr-only">{t('(opens in a new tab)')}</span>
+            </a>
           ))}
-        </ul>
-        {!project.featured && (
-          <>
-            <h4>{project.focus.label}</h4>
-            <p>{project.focus.text}</p>
-          </>
-        )}
-        <h4>{isPlanned ? t('Planned / used technologies') : t('Full technology stack')}</h4>
-        <p>{project.technologies.join(' · ')}</p>
-      </div>
-    </details>
-    <div class="project-links">
-      {project.github ? (
-        <a
-          class="text-link"
-          href={project.github}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={`${t('View source')} — ${project.title}, GitHub ${t('(opens in a new tab)')}`}
-        >
-          <GitHubIcon size={16} /> {t('View source')} <ArrowUpRight size={15} aria-hidden="true" />
-        </a>
-      ) : (
-        <span class="project-link-placeholder">
-          <CodeXml size={16} aria-hidden="true" /> {t('Repository link to be added')}{' '}
-        </span>
-      )}
-      {project.demo && (
-        <a
-          class="text-link"
-          href={project.demo}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={`${t('Live demo')} — ${project.title} ${t('(opens in a new tab)')}`}
-        >
-          {' '}
-          {t('Live demo')} <ArrowUpRight size={15} aria-hidden="true" />
-        </a>
+        </div>
       )}
     </div>
   </div>
-  {project.screenshot ? (
-    <div class="project-image">
-      <img
-        src={assetPath(project.screenshot.src)}
-        alt={project.screenshot.alt}
-        width={project.screenshot.width}
-        height={project.screenshot.height}
-        loading="lazy"
-        decoding="async"
-      />
-    </div>
-  ) : (
-    project.featured && <ProjectDiagram />
-  )}
 </article>

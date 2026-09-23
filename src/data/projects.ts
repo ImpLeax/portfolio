@@ -1,3 +1,13 @@
+export interface ProjectScreenshot {
+  src: string;
+  label: string;
+  labelUk: string;
+  alt: string;
+  altUk: string;
+  width: number;
+  height: number;
+}
+
 export interface Project {
   id: string;
   number: string;
@@ -6,17 +16,33 @@ export interface Project {
   description: string;
   status?: string;
   featured?: boolean;
-  icon: 'messages' | 'business' | 'bot' | 'scan' | 'store';
+  icon: 'messages' | 'business' | 'bot' | 'scan';
   technologies: string[];
   features: string[];
   focus: { label: string; text: string };
   github: string | null;
   demo: string | null;
-  screenshot: { src: string; alt: string; width: number; height: number } | null;
+  screenshots: ProjectScreenshot[];
+  relatedRepositories?: { name: string; url: string }[];
 }
 
-// Repository links and screenshots are intentionally unset until supplied.
-// Only ByteMarket has a confirmed status. Add other statuses when verified.
+// Use real captures only. Missing files render labeled placeholders at build time.
+// Update dimensions and bilingual alt text to match each supplied screenshot.
+const screenshot = (
+  file: string,
+  label: string,
+  labelUk: string,
+  alt: string,
+  altUk: string,
+): ProjectScreenshot => ({
+  src: `images/projects/${file}.webp`,
+  label,
+  labelUk,
+  alt,
+  altUk,
+  width: 1440,
+  height: 900,
+});
 export const projects: Project[] = [
   {
     id: 'realtime-app',
@@ -51,9 +77,31 @@ export const projects: Project[] = [
       label: 'Technical focus',
       text: 'Real-time chat was one of the most challenging parts: bringing WebSocket communication into a Django application alongside its REST API.',
     },
-    github: null,
+    github: 'https://github.com/ImpLeax/Spark',
     demo: null,
-    screenshot: null,
+    screenshots: [
+      screenshot(
+        'dating-main',
+        'Application overview',
+        'Огляд застосунку',
+        'Spark dating application interface with user profiles.',
+        'Інтерфейс застосунку Spark із профілями користувачів.',
+      ),
+      screenshot(
+        'dating-chat',
+        'Real-time conversations',
+        'Спілкування в реальному часі',
+        'Spark real-time messaging interface.',
+        'Інтерфейс обміну повідомленнями в реальному часі у Spark.',
+      ),
+      screenshot(
+        'dating-discovery',
+        'Location-based discovery',
+        'Пошук за місцезнаходженням',
+        'Spark location-based profile discovery interface.',
+        'Інтерфейс пошуку профілів за місцезнаходженням у Spark.',
+      ),
+    ],
   },
   {
     id: 'crm',
@@ -75,9 +123,31 @@ export const projects: Project[] = [
       label: 'Technical focus',
       text: 'Connecting related business data with validation and workflows that support the full lifecycle of a deal.',
     },
-    github: null,
+    github: 'https://github.com/ImpLeax/WorkFlowCRM',
     demo: null,
-    screenshot: null,
+    screenshots: [
+      screenshot(
+        'crm-dashboard',
+        'Business workspace',
+        'Робочий простір бізнесу',
+        'WorkFlowCRM business management workspace.',
+        'Робочий простір управління бізнесом у WorkFlowCRM.',
+      ),
+      screenshot(
+        'crm-deals',
+        'Deal workflows',
+        'Робота з угодами',
+        'WorkFlowCRM deal management and statuses.',
+        'Керування угодами та їхніми статусами у WorkFlowCRM.',
+      ),
+      screenshot(
+        'crm-products',
+        'Product management',
+        'Керування товарами',
+        'WorkFlowCRM product management interface.',
+        'Інтерфейс керування товарами у WorkFlowCRM.',
+      ),
+    ],
   },
   {
     id: 'bots',
@@ -97,9 +167,28 @@ export const projects: Project[] = [
       label: 'Areas I can build',
       text: 'Commands, FSM/state management, admin tools, user management, notifications and background tasks. Individual examples can be added as separate case studies.',
     },
-    github: null,
+    github: 'https://github.com/ImpLeax/FixMyRideBot',
     demo: null,
-    screenshot: null,
+    relatedRepositories: [
+      { name: 'AI-Assistant', url: 'https://github.com/ImpLeax/AI-Assistant' },
+      { name: 'GateKeeperBot', url: 'https://github.com/ImpLeax/GateKeeperBot' },
+    ],
+    screenshots: [
+      screenshot(
+        'bot-main',
+        'Bot interaction',
+        'Взаємодія з ботом',
+        'FixMyRideBot interface showing a real bot interaction.',
+        'Інтерфейс FixMyRideBot із реальною взаємодією з ботом.',
+      ),
+      screenshot(
+        'bot-admin',
+        'Administration tools',
+        'Інструменти адміністратора',
+        'Bot administration tools.',
+        'Інструменти адміністрування бота.',
+      ),
+    ],
   },
   {
     id: 'scraping',
@@ -120,42 +209,23 @@ export const projects: Project[] = [
       label: 'Technical focus',
       text: 'Turning website content into structured data and connecting extraction with processing in a repeatable workflow.',
     },
-    github: null,
+    github: null, // Add a verified scraping repository URL when available.
     demo: null,
-    screenshot: null,
-  },
-  {
-    id: 'bytemarket',
-    number: '05',
-    title: 'ByteMarket',
-    category: 'E-commerce pet project',
-    icon: 'store',
-    status: 'In Development',
-    description:
-      'An e-commerce website for computer peripherals. Currently in development, with the catalog, purchase flow and integrations on the roadmap.',
-    technologies: [
-      'Python',
-      'Django',
-      'Django REST Framework',
-      'PostgreSQL',
-      'HTML',
-      'CSS',
-      'JavaScript',
-      'Docker',
+    screenshots: [
+      screenshot(
+        'scraping-output',
+        'Structured output',
+        'Структуровані результати',
+        'Real structured data extracted by the Python scraping tool.',
+        'Реальні структуровані дані, зібрані інструментом вебскрапінгу на Python.',
+      ),
+      screenshot(
+        'scraping-browser',
+        'Browser workflow',
+        'Робочий процес у браузері',
+        'A real browser automation workflow.',
+        'Реальний робочий процес автоматизації браузера.',
+      ),
     ],
-    features: [
-      'Product catalog, variants, filtering and search',
-      'Shopping cart and checkout',
-      'Authentication and user profiles',
-      'Nova Poshta and payment integrations',
-      'Orders and Django Admin',
-    ],
-    focus: {
-      label: 'Development direction',
-      text: 'Building a complete small web product, from the database and API to the storefront. The functionality listed here is planned, not a claim of completion.',
-    },
-    github: null,
-    demo: null,
-    screenshot: null,
   },
 ];

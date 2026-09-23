@@ -1,0 +1,441 @@
+:root {
+  --section-space: 120px;
+  --grid-ink: #a6bfff0b;
+}
+:root[data-theme='light'] {
+  --grid-ink: #244faa08;
+}
+h2 {
+  font-size: clamp(32px, 3.8vw, 49px);
+  letter-spacing: -0.05em;
+}
+.section-heading-row > p {
+  font-size: 14px;
+}
+.hero {
+  position: relative;
+  isolation: isolate;
+  column-gap: 64px;
+  padding-top: 95px;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 0 40%;
+  background-image:
+    linear-gradient(var(--grid-ink) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-ink) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: radial-gradient(ellipse, black, transparent 70%);
+  z-index: -1;
+  pointer-events: none;
+}
+.hero-description {
+  font-size: 17px;
+}
+.hero-position {
+  font-size: 12px;
+  line-height: 1.9;
+}
+.hero-name {
+  font-size: 13px;
+}
+.hero-diagram {
+  margin-top: 28px;
+  padding: 28px;
+  border-radius: 12px;
+  border-top: 2px solid var(--border-accent);
+  background: var(--surface);
+  box-shadow: 0 22px 70px var(--shadow);
+}
+.system-caption {
+  font-size: 14px;
+  color: var(--text-soft);
+  line-height: 1.6;
+  margin-top: 18px;
+  max-width: 270px;
+}
+.diagram-client {
+  margin-top: 23px;
+  font-size: 12px;
+}
+.diagram-core {
+  box-shadow: 0 6px 16px var(--shadow);
+  padding-block: 22px;
+}
+.diagram-core strong {
+  font-size: 18px;
+}
+.diagram-core div > span {
+  font-size: 10px;
+}
+.diagram-databases > div {
+  padding-block: 18px;
+}
+.diagram-databases strong {
+  font-size: 13px;
+}
+.diagram-databases span {
+  font-size: 9px;
+}
+.diagram-connector {
+  height: 51px;
+}
+.diagram-connector::after {
+  content: '';
+  position: absolute;
+  width: 3px;
+  height: 8px;
+  border-radius: 2px;
+  left: -1px;
+  background: var(--accent);
+  opacity: 0.65;
+  animation: connection-flow 4s ease-in-out infinite;
+}
+.system-protocol {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  color: var(--subtle);
+  font-family: var(--mono);
+  font-size: 9px;
+  padding-top: 19px;
+}
+.diagram-deployment {
+  margin-top: 17px;
+}
+.hero-bottom {
+  padding-top: 52px;
+  padding-bottom: 35px;
+}
+.hero-bottom p {
+  font-size: 11px;
+}
+.button svg {
+  transition: transform 0.2s ease;
+}
+.button:hover svg {
+  transform: translate(2px, -2px);
+}
+.button[href='#projects']:hover svg {
+  transform: translateY(2px);
+}
+.about-lead > p {
+  font-size: 30px;
+  color: var(--text);
+}
+.about-lead .about-study {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 20px;
+  line-height: 1.9;
+  max-width: 270px;
+}
+.about-copy {
+  font-size: 15px;
+}
+.ai-note {
+  max-width: 760px;
+  margin-left: auto;
+  background: transparent;
+  padding-block: 8px;
+}
+.ai-note p {
+  font-size: 12px;
+}
+#skills .section-heading-row h2 {
+  font-size: clamp(28px, 3vw, 39px);
+}
+#skills .section-heading {
+  margin-bottom: 28px;
+}
+.skills-grid {
+  gap: 0 30px;
+}
+.skill-group {
+  border: 0;
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+  background: transparent;
+  padding: 24px 0;
+}
+.skill-primary {
+  box-shadow: inset 0 2px var(--accent);
+}
+.skill-heading h3 {
+  font-size: 15px;
+}
+.skill-note {
+  margin-bottom: 14px;
+  font-size: 11px;
+}
+.skill-primary .tag-list li {
+  background: var(--surface-blue);
+}
+.services-grid {
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--surface);
+}
+.service-card {
+  border-top: 0;
+  padding: 30px 25px;
+}
+.service-card + .service-card {
+  border-left: 1px solid var(--border);
+}
+.service-topline > svg {
+  width: 48px;
+  height: 48px;
+  padding: 12px;
+  background: var(--surface-blue);
+  border-radius: 8px;
+}
+.service-card h3 {
+  font-size: 19px;
+  margin-top: 35px;
+}
+.service-card p {
+  font-size: 13px;
+}
+.delivery-note > p {
+  font-size: 13px;
+}
+.delivery-note > div {
+  font-size: 11px;
+}
+.education-section {
+  padding-block: 90px;
+}
+.contact-panel {
+  position: relative;
+  overflow: hidden;
+  padding: 64px;
+  border-radius: 12px;
+  box-shadow: 0 20px 65px var(--shadow);
+}
+.contact-panel::after {
+  content: '+';
+  position: absolute;
+  right: 25px;
+  top: 10px;
+  color: var(--border-accent);
+  font-family: var(--mono);
+  font-size: 24px;
+  pointer-events: none;
+}
+.contact-main h2 {
+  font-size: clamp(44px, 4.6vw, 65px);
+}
+.contact-main > p:not(.eyebrow) {
+  font-size: 14px;
+}
+.contact-links > a {
+  padding-block: 25px;
+}
+.contact-links strong {
+  font-size: 15px;
+}
+.contact-links span span {
+  font-size: 12px;
+}
+.contact-email {
+  font-size: 12px;
+}
+main > section:not(.hero) {
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
+}
+.reveal-pending {
+  opacity: 0;
+  transform: translateY(20px);
+}
+.reveal-pending:focus-within {
+  opacity: 1;
+  transform: none;
+}
+@keyframes connection-flow {
+  0%,
+  15% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.6;
+  }
+  75%,
+  100% {
+    transform: translateY(43px);
+    opacity: 0;
+  }
+}
+@media (max-width: 1100px) {
+  :root {
+    --section-space: 90px;
+  }
+  .hero {
+    column-gap: 36px;
+    padding-top: 70px;
+  }
+  .hero-diagram {
+    padding: 22px;
+  }
+  .diagram-core strong {
+    font-size: 16px;
+  }
+  .service-card {
+    padding: 25px 20px;
+  }
+  .contact-panel {
+    padding: 44px;
+  }
+}
+@media (max-width: 900px) {
+  .hero {
+    column-gap: 25px;
+  }
+  .hero-description {
+    font-size: 15px;
+  }
+  .hero-diagram {
+    padding: 18px;
+  }
+  .diagram-core strong {
+    font-size: 14px;
+  }
+  .system-caption {
+    font-size: 13px;
+  }
+  .services-grid {
+    gap: 0;
+  }
+  .service-card:nth-child(3) {
+    border-left: 0;
+  }
+  .service-card:nth-child(n + 3) {
+    border-top: 1px solid var(--border);
+  }
+}
+@media (max-width: 768px) {
+  .hero {
+    padding-top: 45px;
+  }
+  .hero-diagram {
+    margin-top: 38px;
+    padding: 25px;
+    max-width: 470px;
+  }
+  .diagram-core strong {
+    font-size: 18px;
+  }
+  .about-lead > p {
+    font-size: 27px;
+  }
+  .contact-panel {
+    padding: 35px;
+  }
+  .education-section {
+    padding-block: 75px;
+  }
+}
+@media (max-width: 540px) {
+  :root {
+    --section-space: 72px;
+  }
+  .hero {
+    padding-top: 35px;
+  }
+  h2 {
+    font-size: 34px;
+  }
+  .hero-name {
+    font-size: 12px;
+  }
+  .hero-position {
+    font-size: 11px;
+  }
+  .hero-diagram {
+    padding: 22px;
+  }
+  .hero-github {
+    display: inline-flex;
+    width: fit-content;
+  }
+  .hero-github span {
+    display: inline;
+  }
+  .hero-actions {
+    gap: 12px;
+  }
+  .hero-bottom p {
+    font-size: 10px;
+  }
+  .about-copy {
+    font-size: 14px;
+  }
+  .about-lead > p {
+    font-size: 25px;
+  }
+  .ai-note {
+    margin-top: 28px;
+    padding-inline: 17px 0;
+  }
+  .skills-grid {
+    grid-template-columns: 1fr;
+  }
+  .skill-group {
+    padding-block: 20px;
+  }
+  .service-card {
+    padding: 26px;
+  }
+  .service-card + .service-card {
+    border-left: 0;
+    border-top: 1px solid var(--border);
+  }
+  .service-card h3 {
+    margin-top: 22px;
+  }
+  .contact-panel {
+    padding: 30px 24px;
+  }
+  .contact-main h2 {
+    font-size: 43px;
+  }
+  .contact-main > p:not(.eyebrow) {
+    font-size: 13px;
+  }
+  .contact-email {
+    font-size: 10px;
+  }
+  .contact-links span span {
+    font-size: 11px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal-pending {
+    opacity: 1;
+    transform: none;
+  }
+  main > section:not(.hero),
+  .button svg {
+    transition: none;
+  }
+  .diagram-connector::after {
+    animation: none;
+    display: none;
+  }
+  .button:hover svg {
+    transform: none;
+  }
+}
+@media print {
+  .reveal-pending {
+    opacity: 1;
+    transform: none;
+  }
+}

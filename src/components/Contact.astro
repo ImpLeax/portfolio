@@ -1,10 +1,9 @@
 ---
 import { translator } from '../i18n';
 const t = translator(Astro.currentLocale);
-import { ArrowUpRight, Mail, Send, Download, FileText } from '@lucide/astro';
+import { ArrowUpRight, Send } from '@lucide/astro';
 import GitHubIcon from './GitHubIcon.astro';
 import { profile } from '../data/profile';
-import { assetPath } from '../lib/paths';
 ---
 
 <section
@@ -64,25 +63,6 @@ import { assetPath } from '../lib/paths';
         <ArrowUpRight size={18} aria-hidden="true" />
         <span class="sr-only"> {t('(opens in a new tab)')}</span>
       </a>
-      {profile.resume ? (
-        <a href={assetPath(profile.resume)} download>
-          <FileText size={20} aria-hidden="true" />
-          <span>
-            <strong>{t('Download resume')}</strong>
-            <span>{t('PDF document')}</span>
-          </span>
-          <Download size={18} aria-hidden="true" />
-        </a>
-      ) : (
-        <a href={`mailto:${profile.email}?subject=${encodeURIComponent(t('Resume request'))}`}>
-          <FileText size={20} aria-hidden="true" />
-          <span>
-            <strong>{t('Request resume')}</strong>
-            <span>{t('Get in touch by email')}</span>
-          </span>
-          <Mail size={18} aria-hidden="true" />
-        </a>
-      )}
     </div>
   </div>
 </section>

@@ -4,6 +4,7 @@ import AxeBuilder from '@axe-core/playwright';
 for (const width of [1440, 1024, 768, 390]) {
   test(`layout, resources and accessibility at ${width}px`, async ({ page }, testInfo) => {
     await page.setViewportSize({ width, height: 960 });
+    await page.emulateMedia({ reducedMotion: 'reduce' });
     const errors: string[] = [];
     page.on('pageerror', (error) => errors.push(error.message));
     page.on('response', (response) => {
@@ -14,7 +15,7 @@ for (const width of [1440, 1024, 768, 390]) {
     await page.evaluate(() => document.fonts.ready);
     await expect(page.locator('h1')).toHaveCount(1);
     await expect(page.locator('h1')).toContainText('Python Backend');
-    await expect(page.locator('.project-card')).toHaveCount(5);
+    await expect(page.locator('.project-card')).toHaveCount(4);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
       true,
     );
@@ -81,18 +82,13 @@ test('mobile menu supports keyboard navigation, Escape and section focus', async
   await expect(page.getByRole('navigation')).toBeHidden();
 });
 
-test('project details open with the keyboard and planned work stays clear', async ({ page }) => {
+test('project details open with the keyboard', async ({ page }) => {
   await page.goto('./');
   const summary = page.locator('.project-details summary').first();
   await summary.focus();
   await page.keyboard.press('Enter');
   await expect(page.locator('.project-details').first()).toHaveAttribute('open', '');
   await expect(page.locator('.project-details').first()).toContainText('WebSockets');
-  const bytemarket = page.getByRole('article', { name: 'ByteMarket', exact: true });
-  await expect(bytemarket).toContainText('In Development');
-  await bytemarket.locator('summary').click();
-  await expect(bytemarket).toContainText('Planned functionality');
-  await expect(bytemarket).toContainText('not a claim of completion');
   await expect(page.locator('a[href="#"]')).toHaveCount(0);
 });
 
@@ -123,10 +119,7 @@ test('metadata, local assets and provided contact destinations are correct', asy
   await expect(
     page.locator('#contact a[href="mailto:bondarchukvolodymyr891@gmail.com"]'),
   ).toHaveCount(2);
-  await expect(page.getByRole('link', { name: /Request resume/ })).toHaveAttribute(
-    'href',
-    /subject=Resume%20request/,
-  );
+  await expect(page.locator('.contact-links > a')).toHaveCount(3);
 });
 
 test('content and navigation remain available without JavaScript', async ({ browser, baseURL }) => {

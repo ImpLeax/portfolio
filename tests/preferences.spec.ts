@@ -19,7 +19,7 @@ for (const locale of ['en', 'uk'] as const) {
         page,
       }, testInfo) => {
         await page.setViewportSize({ width, height: 960 });
-        await page.emulateMedia({ colorScheme: theme });
+        await page.emulateMedia({ colorScheme: theme, reducedMotion: 'reduce' });
         const errors: string[] = [];
         page.on('pageerror', (error) => errors.push(error.message));
         page.on('requestfailed', (request) => errors.push(request.url()));
@@ -30,17 +30,14 @@ for (const locale of ['en', 'uk'] as const) {
         await page.evaluate(() => document.fonts.ready);
         await expect(page.locator('html')).toHaveAttribute('lang', locale);
         await expect(page.locator('html')).toHaveAttribute('data-theme', theme);
-        await expect(page.locator('.project-card')).toHaveCount(5);
+        await expect(page.locator('.project-card')).toHaveCount(4);
         expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
           true,
         );
         if (locale === 'uk') {
           await expect(page.locator('h1')).toContainText('Розробник');
           await expect(page.locator('#about')).toContainText('КПІ ім. Ігоря Сікорського');
-          await expect(page.locator('#bytemarket-title')).toHaveText('ByteMarket');
-          await expect(page.locator('.project-status')).toHaveText('У розробці');
           await expect(page.locator('#education')).toContainText('Студент 3-го курсу');
-          await expect(page.locator('#contact')).toContainText('Запросити резюме');
           expect(
             await page.evaluate(() => document.fonts.check('500 16px "Geist Variable"', 'Україна')),
           ).toBe(true);
@@ -175,7 +172,7 @@ test('localized content, metadata and language links work without JavaScript', a
   const page = await context.newPage();
   await page.goto(`${baseURL}uk/`);
   await expect(page.locator('html')).toHaveAttribute('lang', 'uk');
-  await expect(page).toHaveTitle('Володимир Бондарчук — Python Backend розробник');
+  await expect(page).toHaveTitle('Volodymyr Bondarchuk — Python Backend Розробник');
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', /\/uk\/$/);
   await expect(page.locator('meta[property="og:locale"]')).toHaveAttribute('content', 'uk_UA');
   await expect(page.locator('link[hreflang="uk"]')).toHaveAttribute('href', /\/uk\/$/);

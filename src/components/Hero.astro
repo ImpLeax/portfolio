@@ -59,12 +59,13 @@ import { profile } from '../data/profile';
       <span class="mono">{t('BACKEND / CURRENT FOCUS')}</span>
       <Braces size={17} aria-hidden="true" />
     </div>
+    <p class="system-caption">{t('A connected backend, from request to data.')}</p>
     <div class="diagram-client">
       <span class="diagram-dot"></span>
       <span>{t('Web app, bot or integration')}</span>
     </div>
     <div class="diagram-connector">
-      <span>HTTP / REST</span>
+      <span>REST API</span>
     </div>
     <div class="diagram-core">
       <div class="diagram-icon">
@@ -88,6 +89,11 @@ import { profile } from '../data/profile';
         <strong>Redis</strong>
         <span>{t('Caching & messaging')}</span>
       </div>
+    </div>
+    <div class="system-protocol">
+      <span>HTTPS / JSON</span>
+      <span>WebSocket</span>
+      <span>ASGI</span>
     </div>
     <div class="diagram-deployment">
       <span class="mono">{t('ENVIRONMENT')}</span>

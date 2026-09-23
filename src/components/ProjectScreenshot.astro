@@ -1,0 +1,59 @@
+---
+import { existsSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { Image as ImageIcon, Maximize2 } from '@lucide/astro';
+import type { ProjectScreenshot } from '../data/projects';
+import { assetPath } from '../lib/paths';
+import { getLocale, translator } from '../i18n';
+interface Props {
+  screenshot: ProjectScreenshot;
+  compact?: boolean;
+}
+const { screenshot, compact = false } = Astro.props;
+const t = translator(Astro.currentLocale);
+const isUk = getLocale(Astro.currentLocale) === 'uk';
+const available = existsSync(resolve('public', screenshot.src));
+const label = isUk ? screenshot.labelUk : screenshot.label;
+const alt = isUk ? screenshot.altUk : screenshot.alt;
+---
+
+<figure class:list={['screenshot-frame', { 'screenshot-compact': compact }]}>
+  <div class="screenshot-toolbar" aria-hidden="true">
+    <span class="window-dots">
+      <i></i>
+      <i></i>
+      <i></i>
+    </span>
+    <span>{label}</span>
+    <Maximize2 size={12} />
+  </div>
+  {available ? (
+    <a
+      class="screenshot-link"
+      href={assetPath(screenshot.src)}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`${t('Open screenshot')} — ${label} ${t('(opens in a new tab)')}`}
+    >
+      <img
+        src={assetPath(screenshot.src)}
+        alt={alt}
+        width={screenshot.width}
+        height={screenshot.height}
+        loading="lazy"
+        decoding="async"
+      />
+    </a>
+  ) : (
+    <div class="screenshot-placeholder">
+      <span class="placeholder-corners" aria-hidden="true"></span>
+      <ImageIcon size={compact ? 22 : 36} stroke-width={1.2} aria-hidden="true" />
+      <strong>{label}</strong>
+      <span>{t('Screenshot to be added')}</span>
+      <code>{screenshot.src.split('/').pop()}</code>
+    </div>
+  )}
+  <figcaption class="sr-only">
+    {available ? alt : `${label}. ${t('Screenshot to be added')}: ${screenshot.src}`}
+  </figcaption>
+</figure>

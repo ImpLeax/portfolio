@@ -1,7 +1,16 @@
 export const uk = {
+  'View Repository': 'Переглянути репозиторій',
+  'Related repositories': 'Пов’язані репозиторії',
+  'Screenshot to be added': 'Знімок екрана буде додано',
+  'Open screenshot': 'Відкрити знімок екрана',
+  'More screenshots': 'Більше знімків екрана',
+  'Featured case study': 'Вибраний проєкт у деталях',
+  'A connected backend, from request to data.': 'Цілісний бекенд: від запиту до даних.',
+  'IATE · Software Engineering · Specialty 121':
+    'ІАТЕ · Інженерія програмного забезпечення · Спеціальність 121',
   'Volodymyr Bondarchuk': 'Володимир Бондарчук',
   'Volodymyr Bondarchuk — Python Backend Developer':
-    'Володимир Бондарчук — Python Backend розробник',
+    'Volodymyr Bondarchuk — Python Backend Розробник',
   'Junior Python Backend Developer specializing in Django, REST APIs, PostgreSQL, automation, bots and web scraping.':
     'Junior Python Backend розробник. Django, REST API, PostgreSQL, автоматизація, боти та вебскрапінг.',
   'Volodymyr Bondarchuk — Portfolio': 'Володимир Бондарчук — Портфоліо',
@@ -90,14 +99,10 @@ export const uk = {
   'Find me on GitHub': 'Мій профіль на GitHub',
   'Featured project': 'Вибраний проєкт',
   'technologies listed in project details': 'технологій у деталях проєкту',
-  'Explore the roadmap': 'Переглянути план розробки',
   'Explore project details': 'Детальніше про проєкт',
-  'Planned functionality': 'Заплановані можливості',
   'Key features': 'Основні можливості',
-  'Planned / used technologies': 'Заплановані / використані технології',
   'Full technology stack': 'Повний стек технологій',
   'View source': 'Переглянути код',
-  'Repository link to be added': 'Посилання на репозиторій буде додано',
   'Live demo': 'Демо',
   'In Development': 'У розробці',
   Completed: 'Завершено',
@@ -146,19 +151,6 @@ export const uk = {
   'Repetitive browser task automation': 'Автоматизація повторюваних дій у браузері',
   'Turning website content into structured data and connecting extraction with processing in a repeatable workflow.':
     'Перетворення вмісту сайтів на структуровані дані та поєднання збирання й обробки в повторюваний робочий процес.',
-  ByteMarket: 'ByteMarket',
-  'E-commerce pet project': 'Власний проєкт інтернет-магазину',
-  'An e-commerce website for computer peripherals. Currently in development, with the catalog, purchase flow and integrations on the roadmap.':
-    'Інтернет-магазин комп’ютерної периферії. Зараз у розробці: каталог, процес покупки та інтеграції входять до плану робіт.',
-  'Product catalog, variants, filtering and search':
-    'Каталог товарів, варіанти, фільтрація та пошук',
-  'Shopping cart and checkout': 'Кошик та оформлення покупки',
-  'Authentication and user profiles': 'Автентифікація та профілі користувачів',
-  'Nova Poshta and payment integrations': 'Інтеграції з Новою поштою та платіжними сервісами',
-  'Orders and Django Admin': 'Замовлення та Django Admin',
-  'Development direction': 'Напрям розробки',
-  'Building a complete small web product, from the database and API to the storefront. The functionality listed here is planned, not a claim of completion.':
-    'Створюю цілісний невеликий вебпродукт: від бази даних і API до вітрини магазину. Перелічені можливості заплановані, а не представлені як уже завершені.',
   'Architecture sketch: a React client connects to a Django REST API and Django Channels for real-time chat, with PostgreSQL, PostGIS and Redis.':
     'Схема архітектури: клієнт на React взаємодіє з Django REST API та Django Channels для чату в реальному часі, з PostgreSQL, PostGIS і Redis.',
   'ARCHITECTURE SKETCH': 'СХЕМА АРХІТЕКТУРИ',
@@ -203,11 +195,6 @@ export const uk = {
   'Email me': 'Написати мені',
   'Explore my code': 'Переглянути мій код',
   'Let’s connect professionally': 'Додаймося до професійних контактів',
-  'Download resume': 'Завантажити резюме',
-  'PDF document': 'Документ PDF',
-  'Request resume': 'Запросити резюме',
-  'Get in touch by email': 'Напишіть на електронну пошту',
-  'Resume request': 'Запит резюме',
   'Built with care. Powered by Astro.': 'Створено з увагою до деталей. На Astro.',
   'Back to top': 'На початок',
 };

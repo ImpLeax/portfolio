@@ -70,18 +70,11 @@
 .skill-heading {
   flex-wrap: wrap;
 }
-.project-diagram-services strong,
-.project-diagram-services div > span:last-child {
-  white-space: normal;
-}
 html[lang='uk'] .hero-position {
   max-width: 470px;
 }
 html[lang='uk'] .diagram-databases span {
   text-align: center;
-}
-html[lang='uk'] .project-diagram-services div > span:last-child {
-  align-items: start;
 }
 @media (max-width: 1100px) {
   .header-inner {

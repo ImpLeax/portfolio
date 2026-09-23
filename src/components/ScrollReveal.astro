@@ -1,0 +1,50 @@
+<script>
+  const preference = matchMedia('(prefers-reduced-motion: reduce)');
+  if ('IntersectionObserver' in window) {
+    const sections = Array.from(
+      document.querySelectorAll<HTMLElement>('main > section:not(.hero)'),
+    );
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            entry.target.classList.remove('reveal-pending');
+            observer.unobserve(entry.target);
+          }
+        }
+      },
+      { threshold: 0, rootMargin: '0px 0px -35px 0px' },
+    );
+    if (!preference.matches) {
+      for (const section of sections) {
+        // Already visible content and hash destinations never start hidden.
+        if (
+          section.getBoundingClientRect().top > innerHeight &&
+          `#${section.id}` !== location.hash
+        ) {
+          section.classList.add('reveal-pending');
+          observer.observe(section);
+        }
+      }
+    }
+    const reveal = (section: Element | null) => {
+      if (section) {
+        section.classList.remove('reveal-pending');
+        observer.unobserve(section);
+      }
+    };
+    document.addEventListener('focusin', (event) => {
+      if (event.target instanceof Element) reveal(event.target.closest('section'));
+    });
+    window.addEventListener('hashchange', () =>
+      reveal(document.getElementById(location.hash.slice(1))),
+    );
+    preference.addEventListener('change', (event) => {
+      if (event.matches) {
+        sections.forEach(reveal);
+        observer.disconnect();
+      }
+    });
+    window.addEventListener('beforeprint', () => sections.forEach(reveal));
+  }
+</script>
