@@ -47,9 +47,14 @@ for (const locale of ['en', 'uk'] as const) {
           fullPage: true,
         });
         await page.screenshot({ path: testInfo.outputPath('hero.png') });
-        await page
-          .locator('.project-details')
-          .evaluateAll((nodes) => nodes.forEach((node) => node.setAttribute('open', '')));
+        const copy = (await page.locator('.about-copy').boundingBox())!;
+        const lead = (await page.locator('.about-lead').boundingBox())!;
+        const note = (await page.locator('.ai-note').boundingBox())!;
+        const preceding = width > 768 ? lead : copy;
+        expect(Math.abs(note.x - preceding.x)).toBeLessThan(1);
+        expect(Math.abs(note.width - preceding.width)).toBeLessThan(1);
+        expect(note.y).toBeGreaterThanOrEqual(preceding.y + preceding.height);
+        await page.locator('#about').screenshot({ path: testInfo.outputPath('about.png') });
         expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
           true,
         );

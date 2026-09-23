@@ -33,16 +33,6 @@ for (const width of [1440, 1024, 768, 390]) {
     expect(accessibility.violations).toEqual([]);
     await page.screenshot({ path: testInfo.outputPath(`portfolio-${width}.png`), fullPage: true });
     await page.screenshot({ path: testInfo.outputPath(`hero-${width}.png`) });
-    await page
-      .locator('.project-details')
-      .evaluateAll((details) => details.forEach((detail) => detail.setAttribute('open', '')));
-    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
-      true,
-    );
-    const expanded = await new AxeBuilder({ page })
-      .withTags(['wcag2a', 'wcag2aa', 'wcag21aa'])
-      .analyze();
-    expect(expanded.violations).toEqual([]);
     expect(errors).toEqual([]);
   });
 }
@@ -82,13 +72,16 @@ test('mobile menu supports keyboard navigation, Escape and section focus', async
   await expect(page.getByRole('navigation')).toBeHidden();
 });
 
-test('project details open with the keyboard', async ({ page }) => {
+test('project information is visible without expanding cards', async ({ page }) => {
   await page.goto('./');
-  const summary = page.locator('.project-details summary').first();
-  await summary.focus();
-  await page.keyboard.press('Enter');
-  await expect(page.locator('.project-details').first()).toHaveAttribute('open', '');
-  await expect(page.locator('.project-details').first()).toContainText('WebSockets');
+  await page.locator('#projects').focus();
+  await expect(page.locator('.project-details')).toHaveCount(0);
+  const featured = page.locator('.project-featured');
+  await expect(featured.locator('.project-tags')).toContainText('WebSockets');
+  await expect(featured.locator('.project-tags')).toContainText('Docker');
+  await expect(featured.locator('.project-highlights')).toBeVisible();
+  await featured.locator('.repository-link').focus();
+  await expect(featured.locator('.repository-link')).toBeFocused();
   await expect(page.locator('a[href="#"]')).toHaveCount(0);
 });
 
@@ -131,8 +124,9 @@ test('content and navigation remain available without JavaScript', async ({ brow
   await page.goto(baseURL!);
   await expect(page.getByRole('navigation')).toBeVisible();
   await expect(page.locator('.menu-toggle')).toBeHidden();
-  await page.locator('.project-details summary').first().click();
-  await expect(page.locator('.project-details').first()).toHaveAttribute('open', '');
+  await expect(page.locator('.project-featured .project-tags')).toContainText('WebSockets');
+  await expect(page.locator('.project-featured .project-highlights')).toBeVisible();
+  await expect(page.locator('.ai-note')).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await context.close();
 });

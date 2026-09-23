@@ -1,7 +1,6 @@
 ---
 import {
   ArrowUpRight,
-  ChevronDown,
   Check,
   MessagesSquare,
   BriefcaseBusiness,
@@ -36,14 +35,14 @@ const Icon = icons[project.icon];
     <span class="mono">/{project.number}</span>
   </div>
   <div class="project-presentation">
-    <ProjectGallery project={project} />
+    {project.screenshots.length > 0 && <ProjectGallery project={project} />}
     <div class="project-content">
       <p class="project-category">{project.featured ? 'Spark' : t(project.category)}</p>
       <h3 id={`${project.id}-title`}>{t(project.title)}</h3>
       {project.status && <span class="project-status">{t(project.status)}</span>}
       <p class="project-description">{t(project.description)}</p>
       <ul class="project-highlights">
-        {project.features.slice(0, 4).map((feature) => (
+        {project.features.map((feature) => (
           <li>
             <Check size={15} aria-hidden="true" />
             <span>{t(feature)}</span>
@@ -51,7 +50,7 @@ const Icon = icons[project.icon];
         ))}
       </ul>
       <ul class="tag-list project-tags">
-        {project.technologies.slice(0, project.featured ? 8 : 6).map((value) => (
+        {project.technologies.map((value) => (
           <li>{value === 'Databases' ? t(value) : value}</li>
         ))}
       </ul>
@@ -61,32 +60,6 @@ const Icon = icons[project.icon];
           <p>{t(project.focus.text)}</p>
         </div>
       )}
-      <details class="project-details">
-        <summary>
-          {t('Explore project details')}
-          <ChevronDown size={17} aria-hidden="true" />
-        </summary>
-        <div class="project-details-content">
-          {!project.featured && (
-            <>
-              <h4>{t(project.focus.label)}</h4>
-              <p>{t(project.focus.text)}</p>
-            </>
-          )}
-          <h4>{t('Key features')}</h4>
-          <ul>
-            {project.features.map((feature) => (
-              <li>{t(feature)}</li>
-            ))}
-          </ul>
-          <h4>{t('Full technology stack')}</h4>
-          <p>
-            {project.technologies
-              .map((value) => (value === 'Databases' ? t(value) : value))
-              .join(' · ')}
-          </p>
-        </div>
-      </details>
       {(project.github || project.demo) && (
         <div class="project-links">
           {project.github && (

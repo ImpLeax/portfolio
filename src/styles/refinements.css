@@ -1,6 +1,7 @@
 :root {
   --section-space: 120px;
   --grid-ink: #a6bfff0b;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 }
 :root[data-theme='light'] {
   --grid-ink: #244faa08;
@@ -121,28 +122,64 @@ h2 {
 .button[href='#projects']:hover svg {
   transform: translateY(2px);
 }
+#about {
+  padding-block: clamp(56px, 6vw, 84px);
+}
+#about .section-heading {
+  margin-bottom: 32px;
+}
 .about-lead > p {
-  font-size: 30px;
+  font-size: 28px;
   color: var(--text);
+  letter-spacing: -0.025em;
+  text-wrap: pretty;
+}
+#about h2:lang(uk) {
+  letter-spacing: -0.025em;
+}
+.about-grid {
+  grid-template-areas: 'lead copy' 'note copy';
+  grid-template-rows: auto 1fr;
+  align-items: start;
+  gap: 24px 56px;
+}
+.about-lead {
+  grid-area: lead;
+}
+.about-lead .text-link {
+  margin-top: 18px;
+}
+.about-grid > * {
+  min-width: 0;
 }
 .about-lead .about-study {
   font-size: 12px;
   color: var(--muted);
-  margin-top: 20px;
-  line-height: 1.9;
-  max-width: 270px;
+  margin-top: 12px;
+  line-height: 1.6;
+  max-width: none;
 }
 .about-copy {
+  grid-area: copy;
   font-size: 15px;
 }
 .ai-note {
-  max-width: 760px;
-  margin-left: auto;
-  background: transparent;
-  padding-block: 8px;
+  grid-area: note;
+  margin: 0;
+  padding: 22px;
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--border-accent);
+  border-radius: 0 8px 8px 0;
+  background: var(--surface);
+  gap: 14px;
+}
+.ai-note h3 {
+  font-size: 14px;
+  line-height: 1.6;
 }
 .ai-note p {
-  font-size: 12px;
+  font-size: 13px;
+  line-height: 1.85;
 }
 #skills .section-heading-row h2 {
   font-size: clamp(28px, 3vw, 39px);
@@ -246,17 +283,87 @@ h2 {
   font-size: 12px;
 }
 main > section:not(.hero) {
-  transition:
-    opacity 0.6s ease,
-    transform 0.6s ease;
+  transition: opacity 0.5s ease;
+}
+/* Only headings move: large text sections and sticky galleries keep their geometry. */
+main .section-heading {
+  transition: transform 0.6s var(--ease-out);
 }
 .reveal-pending {
   opacity: 0;
-  transform: translateY(20px);
+}
+.reveal-pending .section-heading {
+  transform: translateY(18px);
 }
 .reveal-pending:focus-within {
   opacity: 1;
+}
+.reveal-pending:focus-within .section-heading {
   transform: none;
+}
+.main-navigation > a,
+.contact-links > a {
+  position: relative;
+}
+.main-navigation > a::after,
+.contact-links > a::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: 1px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.35s var(--ease-out);
+  pointer-events: none;
+}
+.main-navigation > a:is(:hover, :focus-visible)::after,
+.contact-links > a:is(:hover, :focus-visible)::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+.contact-links > a > svg:last-of-type,
+.text-link > svg,
+.service-topline > svg,
+.scroll-cue > svg {
+  transition: transform 0.35s var(--ease-out);
+}
+.service-card {
+  transition: background-color 0.3s ease;
+}
+.service-card:hover {
+  background: var(--surface-blue);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .hero-diagram {
+    animation: system-arrive 0.8s var(--ease-out);
+  }
+  .contact-links > a:focus-visible > svg:last-of-type,
+  .text-link:focus-visible > svg {
+    transform: translate(3px, -3px);
+  }
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .contact-links > a:hover > svg:last-of-type,
+  .text-link:hover > svg {
+    transform: translate(3px, -3px);
+  }
+  .service-card:hover .service-topline > svg {
+    transform: translateY(-3px) rotate(-4deg);
+  }
+  .scroll-cue:hover > svg {
+    transform: translateY(3px);
+  }
+}
+@keyframes system-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 @keyframes connection-flow {
   0%,
@@ -335,6 +442,10 @@ main > section:not(.hero) {
   .about-lead > p {
     font-size: 27px;
   }
+  .about-grid {
+    grid-template-areas: 'lead' 'copy' 'note';
+    grid-template-rows: auto;
+  }
   .contact-panel {
     padding: 35px;
   }
@@ -381,8 +492,7 @@ main > section:not(.hero) {
     font-size: 25px;
   }
   .ai-note {
-    margin-top: 28px;
-    padding-inline: 17px 0;
+    padding: 18px;
   }
   .skills-grid {
     grid-template-columns: 1fr;
@@ -417,7 +527,8 @@ main > section:not(.hero) {
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .reveal-pending {
+  .reveal-pending,
+  .reveal-pending .section-heading {
     opacity: 1;
     transform: none;
   }
@@ -429,12 +540,14 @@ main > section:not(.hero) {
     animation: none;
     display: none;
   }
-  .button:hover svg {
+  .button:hover svg,
+  .button[href='#projects']:hover svg {
     transform: none;
   }
 }
 @media print {
-  .reveal-pending {
+  .reveal-pending,
+  .reveal-pending .section-heading {
     opacity: 1;
     transform: none;
   }

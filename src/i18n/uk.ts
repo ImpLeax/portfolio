@@ -58,7 +58,7 @@ export const uk = {
     'У бекенді я поєдную окремі частини в цілісну систему.',
   'Software Engineering at KPI': 'Інженерія програмного забезпечення в КПІ',
   'I’m a 3rd-year Software Engineering student at':
-    'Я навчаюся на 3-му курсі інженерії програмного забезпечення в',
+    'Я навчаюся на 3-му курсі на спеціальності: "Інженерія програмного забезпечення" в',
   'Igor Sikorsky Kyiv Polytechnic Institute': 'КПІ ім. Ігоря Сікорського',
   ', focused on Python backend development. My hands-on experience comes from personal and university projects, and I’m looking for my first commercial opportunity as a Junior / Trainee developer.':
     '. Мій основний напрям — бекенд на Python. Практичний досвід здобуваю у власних та університетських проєктах і шукаю першу комерційну можливість як Junior / Trainee розробник.',
@@ -99,9 +99,6 @@ export const uk = {
   'Find me on GitHub': 'Мій профіль на GitHub',
   'Featured project': 'Вибраний проєкт',
   'technologies listed in project details': 'технологій у деталях проєкту',
-  'Explore project details': 'Детальніше про проєкт',
-  'Key features': 'Основні можливості',
-  'Full technology stack': 'Повний стек технологій',
   'View source': 'Переглянути код',
   'Live demo': 'Демо',
   'In Development': 'У розробці',
